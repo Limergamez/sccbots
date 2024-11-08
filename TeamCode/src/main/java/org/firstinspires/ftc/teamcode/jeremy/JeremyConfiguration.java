@@ -17,12 +17,13 @@ import org.firstinspires.ftc.teamcode.shared.common.RobotConfiguration;
  * named on the activated configuration on the robot.
  */
 public class JeremyConfiguration extends RobotConfiguration {
-    // Left motors
+    //Movement motors
     public DcMotor centreRight;
     public DcMotor backRight;
     public DcMotor centreLeft;
     public DcMotor backLeft;
 
+    //Grabby arm motors
     public DcMotor liftMotor;
     public DcMotor climbMotor;
 
