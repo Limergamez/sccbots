@@ -22,7 +22,7 @@ public class JeremyAutonomousDrive extends LinearOpMode {
         centreLeft = hardwareMap.get(DcMotor.class, "centreLeft");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
 
-        // Set motor directions
+        // Setup motor directions
         centreRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
