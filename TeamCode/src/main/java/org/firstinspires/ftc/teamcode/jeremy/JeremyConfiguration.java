@@ -68,11 +68,11 @@ public class JeremyConfiguration extends RobotConfiguration {
         climbMotor = (DcMotor) getHardwareOn("climbMotor", hardwareMap.dcMotor);
 //      armMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        Telemetry.Item armItem = telemetry.addData("Arm: ", new Func<String>() {
+        Telemetry.Item armItem = telemetry.addData("Lift/Arm Motors: ", new Func<String>() {
             @SuppressLint("DefaultLocale")
             @Override
             public String value() {
-                return String.format("Power: %.2f", liftMotor.getPower());
+                return String.format("Lift Power: %.2f  Climb Power: %.2f", liftMotor.getPower(), climbMotor.getPower());
             }
         });
         armItem.setRetained(true);
