@@ -65,20 +65,20 @@ public class DualGamePadSteerDrive extends RobotComponent {
         }
 
         if(gamepad.right_bumper) {
-            leftBackMotor.setPower(-leftPower);
-            leftFrontMotor.setPower(-leftPower);
-            rightBackMotor.setPower(-rightPower);
-            rightFrontMotor.setPower(-rightPower);
+            leftBackMotor.setPower(-leftPower * 1);
+            leftFrontMotor.setPower(-leftPower * 1);
+            rightBackMotor.setPower(-rightPower * 1);
+            rightFrontMotor.setPower(-rightPower * 1);
         } if(gamepad.left_bumper) {
-            leftBackMotor.setPower(-leftPower * 0.50);
-            leftFrontMotor.setPower(-leftPower * 0.50);
-            rightBackMotor.setPower(-rightPower * 0.50);
-            rightFrontMotor.setPower(-rightPower * 0.50);
+            leftBackMotor.setPower(-leftPower * 0.45);
+            leftFrontMotor.setPower(-leftPower * 0.45);
+            rightBackMotor.setPower(-rightPower * 0.45);
+            rightFrontMotor.setPower(-rightPower * 0.45);
         } else {
-            leftBackMotor.setPower(-leftPower * 0.75);
-            leftFrontMotor.setPower(-leftPower * 0.75);
-            rightBackMotor.setPower(-rightPower * 0.75);
-            rightFrontMotor.setPower(-rightPower * 0.75);
+            leftBackMotor.setPower(-leftPower * 0.7);
+            leftFrontMotor.setPower(-leftPower * 0.7);
+            rightBackMotor.setPower(-rightPower * 0.7);
+            rightFrontMotor.setPower(-rightPower * 0.7);
         }
 
 
