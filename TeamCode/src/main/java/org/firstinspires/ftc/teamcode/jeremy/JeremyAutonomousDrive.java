@@ -28,10 +28,10 @@ public class JeremyAutonomousDrive extends LinearOpMode {
 
         waitForStart();
 
-        // Autonomous Actions
-        moveForward(1, 1000);
+        // Autonomous Actions -- So far it should theoretically move forward for 1 second, pause 1 second, move forwad 1 second
+        moveForward(1, 100);
         sleep(100);
-        moveForward(1, 1000);
+        moveForward(1, 100);
     }
 
     public void moveForward(int power, int time) throws InterruptedException {
