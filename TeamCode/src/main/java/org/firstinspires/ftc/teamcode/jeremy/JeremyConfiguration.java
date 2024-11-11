@@ -28,6 +28,7 @@ public class JeremyConfiguration extends RobotConfiguration {
     public DcMotor liftMotor;
     public DcMotor climbMotor;
     public Servo clawServo;
+    public DcMotor armMotor;
 
     /**
      * Factory method for this class
@@ -69,7 +70,7 @@ public class JeremyConfiguration extends RobotConfiguration {
         liftMotor = (DcMotor) getHardwareOn("liftMotor", hardwareMap.dcMotor);
         climbMotor = (DcMotor) getHardwareOn("climbMotor", hardwareMap.dcMotor);
         clawServo = (Servo) getHardwareOn("clawServo", hardwareMap.servo);
-//      armMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        armMotor = (DcMotor) getHardwareOn("armMotor", hardwareMap.dcMotor);
 
         Telemetry.Item armItem = telemetry.addData("Lift/Arm Motors: ", new Func<String>() {
             @SuppressLint("DefaultLocale")
