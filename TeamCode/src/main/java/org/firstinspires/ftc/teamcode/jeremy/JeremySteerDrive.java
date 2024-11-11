@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.edubot.CharlesArmController;
 import org.firstinspires.ftc.teamcode.edubot.CharlesConfiguration;
 import org.firstinspires.ftc.teamcode.opencv.ColourCountVision;
+import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
 import org.firstinspires.ftc.teamcode.shared.common.ClawControl;
 import org.firstinspires.ftc.teamcode.shared.common.ClimbControl;
 import org.firstinspires.ftc.teamcode.shared.common.DualGamePadSteerDrive;
@@ -22,6 +23,7 @@ public class JeremySteerDrive extends RobotOpMode {
     private LiftControl liftControl;
     private ClimbControl climbControl;
     private ClawControl clawControl;
+    private ArmControl armControl;
 
     @Override
     protected void onInit() {
@@ -30,6 +32,7 @@ public class JeremySteerDrive extends RobotOpMode {
         liftControl = new LiftControl(this, gamepad1, config.liftMotor);
         climbControl = new ClimbControl(this, gamepad1, config.climbMotor);
         clawControl = new ClawControl(this, gamepad1, config.clawServo);
+        armControl = new ArmControl(this, gamepad1, config.armMotor);
     }
 
     @Override
@@ -38,6 +41,7 @@ public class JeremySteerDrive extends RobotOpMode {
         liftControl.update();
         climbControl.update();
         clawControl.update();
+        armControl.update();
         telemetry.update();
     }
 }
