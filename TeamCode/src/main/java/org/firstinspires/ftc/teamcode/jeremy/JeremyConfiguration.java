@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -26,6 +27,7 @@ public class JeremyConfiguration extends RobotConfiguration {
     //Grabby arm motors
     public DcMotor liftMotor;
     public DcMotor climbMotor;
+    public Servo clawServo;
 
     /**
      * Factory method for this class
@@ -66,6 +68,7 @@ public class JeremyConfiguration extends RobotConfiguration {
 
         liftMotor = (DcMotor) getHardwareOn("liftMotor", hardwareMap.dcMotor);
         climbMotor = (DcMotor) getHardwareOn("climbMotor", hardwareMap.dcMotor);
+        clawServo = (Servo) getHardwareOn("clawServo", hardwareMap.servo);
 //      armMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         Telemetry.Item armItem = telemetry.addData("Lift/Arm Motors: ", new Func<String>() {
