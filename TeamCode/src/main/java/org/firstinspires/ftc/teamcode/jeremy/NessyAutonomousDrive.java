@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode.jeremy;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static java.lang.Thread.sleep;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "JeremyAuto")
-public class JeremyAutonomousDrive extends LinearOpMode {
+public class NessyAutonomousDrive extends LinearOpMode {
     // Movement Motors
     protected DcMotor centreRight;
     protected DcMotor backRight;

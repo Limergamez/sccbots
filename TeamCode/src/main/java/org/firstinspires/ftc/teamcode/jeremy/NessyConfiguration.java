@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.shared.common.RobotConfiguration;
  * It is also assumed that the device names in the 'init()' method below are the same as the devices
  * named on the activated configuration on the robot.
  */
-public class JeremyConfiguration extends RobotConfiguration {
+public class NessyConfiguration extends RobotConfiguration {
     //Movement motors
     public DcMotor centreRight;
     public DcMotor backRight;
@@ -34,9 +34,9 @@ public class JeremyConfiguration extends RobotConfiguration {
      * Factory method for this class
      *
      */
-    public static JeremyConfiguration newConfig(HardwareMap hardwareMap, Telemetry telemetry) {
+    public static NessyConfiguration newConfig(HardwareMap hardwareMap, Telemetry telemetry) {
 
-        JeremyConfiguration config = new JeremyConfiguration();
+        NessyConfiguration config = new NessyConfiguration();
         config.init(hardwareMap, telemetry);
         return config;
     }
