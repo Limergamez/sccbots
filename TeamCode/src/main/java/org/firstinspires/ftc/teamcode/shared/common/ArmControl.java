@@ -13,11 +13,11 @@ public class ArmControl extends RobotComponent{
         this.armMotor = armMotor;
     }
     public void update() {
-        if(gamepad.dpad_left) {
-            armMotor.setPower(+1.0);
+        if(gamepad.dpad_down) {
+            armMotor.setPower(+0.23);
         }
-        else if(gamepad.dpad_right) {
-            armMotor.setPower(-1.0);
+        else if(gamepad.dpad_up) {
+            armMotor.setPower(-0.37);
         } else {
             armMotor.setPower(+0.0);
         }

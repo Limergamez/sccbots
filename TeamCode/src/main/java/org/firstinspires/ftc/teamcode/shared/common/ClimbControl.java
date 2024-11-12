@@ -13,10 +13,10 @@ public class ClimbControl extends RobotComponent{
         this.climbMotor = climbMotor;
     }
     public void update() {
-        if(gamepad.dpad_down) {
+        if(gamepad.dpad_left) {
             climbMotor.setPower(+1.0);
         }
-        else if(gamepad.dpad_up) {
+        else if(gamepad.dpad_right) {
             climbMotor.setPower(-1.0);
         } else {
             climbMotor.setPower(+0.0);
