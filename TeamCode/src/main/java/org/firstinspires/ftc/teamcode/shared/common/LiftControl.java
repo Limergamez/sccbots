@@ -11,6 +11,7 @@ public class LiftControl extends RobotComponent{
         super(robotOpMode);
         this.gamepad = gamepad;
         this.liftMotor = liftMotor;
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
     public void update() {
         if(gamepad.right_trigger>0) {
