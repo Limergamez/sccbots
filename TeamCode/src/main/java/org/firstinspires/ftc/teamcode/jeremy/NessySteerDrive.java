@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.shared.common.ClimbControl;
 import org.firstinspires.ftc.teamcode.shared.common.DualGamePadSteerDrive;
 import org.firstinspires.ftc.teamcode.shared.common.LiftControl;
 import org.firstinspires.ftc.teamcode.shared.common.RobotOpMode;
+import org.firstinspires.ftc.teamcode.shared.common.SuperSlowTurnControl;
 
 
 @TeleOp(name = "Nessy Steer Drive V2")
@@ -18,6 +19,7 @@ public class NessySteerDrive extends RobotOpMode {
     private ClimbControl climbControl;
     private ClawControl clawControl;
     private ArmControl armControl;
+    private SuperSlowTurnControl superSlowTurnControl;
 
     @Override
     protected void onInit() {
@@ -27,6 +29,7 @@ public class NessySteerDrive extends RobotOpMode {
         climbControl = new ClimbControl(this, gamepad2, config.climbMotor);
         clawControl = new ClawControl(this, gamepad2, config.clawServo);
         armControl = new ArmControl(this, gamepad2, config.armMotor);
+        superSlowTurnControl = new SuperSlowTurnControl(this, gamepad2, config.centreLeft, config.centreRight, config.backLeft, config.backRight);
     }
 
     @Override
@@ -36,6 +39,7 @@ public class NessySteerDrive extends RobotOpMode {
         climbControl.update();
         clawControl.update();
         armControl.update();
+        superSlowTurnControl.update();
         telemetry.update();
     }
 }

@@ -64,7 +64,7 @@ public class DualGamePadSteerDrive extends RobotComponent {
             rightPower = scalePower * ((steer > 0) ? 1.0f - steer : 1.0f);
         }
 
-        if(gamepad.right_bumper) {
+        if(gamepad.a) {
             leftBackMotor.setPower(-leftPower * 1);
             leftFrontMotor.setPower(-leftPower * 1);
             rightBackMotor.setPower(-rightPower * 1);
@@ -74,6 +74,11 @@ public class DualGamePadSteerDrive extends RobotComponent {
             leftFrontMotor.setPower(-leftPower * 0.45);
             rightBackMotor.setPower(-rightPower * 0.45);
             rightFrontMotor.setPower(-rightPower * 0.45);
+        } if(gamepad.right_bumper) {
+            leftBackMotor.setPower(-leftPower * 0.15);
+            leftFrontMotor.setPower(-leftPower * 0.15);
+            rightBackMotor.setPower(-rightPower * 0.15);
+            rightFrontMotor.setPower(-rightPower * 0.15);
         } else {
             leftBackMotor.setPower(-leftPower * 0.7);
             leftFrontMotor.setPower(-leftPower * 0.7);
