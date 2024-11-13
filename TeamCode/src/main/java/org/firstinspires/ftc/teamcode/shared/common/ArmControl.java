@@ -11,6 +11,8 @@ public class ArmControl extends RobotComponent{
         super(robotOpMode);
         this.gamepad = gamepad;
         this.armMotor = armMotor;
+
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
     public void update() {
         if(gamepad.dpad_down) {
@@ -19,7 +21,7 @@ public class ArmControl extends RobotComponent{
         else if(gamepad.dpad_up) {
             armMotor.setPower(-0.37);
         } else {
-            armMotor.setPower(+0.0);
+            armMotor.setPower(0.0);
         }
     }
 }
