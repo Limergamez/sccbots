@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "JeremyAuto")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "NessyAutonomous")
 public class NessyAutonomousDrive extends LinearOpMode {
     // Movement Motors
     protected DcMotor centreRight;
@@ -17,7 +17,7 @@ public class NessyAutonomousDrive extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         // Movement motors
         centreRight = hardwareMap.get(DcMotor.class, "centreRight");
-        backRight = hardwareMap.get(DcMotor.class, "backRight"); // Fixed typo
+        backRight = hardwareMap.get(DcMotor.class, "backRight");
         centreLeft = hardwareMap.get(DcMotor.class, "centreLeft");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
 
@@ -27,23 +27,53 @@ public class NessyAutonomousDrive extends LinearOpMode {
 
         waitForStart();
 
-        // Autonomous Actions -- So far it should theoretically move forward for 1 second, pause 1 second, move forwad 1 second
+        // Autonomous Code
+        moveForward(1, 400);
+        sleep(500);
         moveForward(1, 100);
-        sleep(100);
-        moveForward(1, 100);
+        sleep(500);
+        moveLeft(1, 400);
+        sleep(500);
+        moveRight(1, 400);
     }
 
     public void moveForward(int power, int time) throws InterruptedException {
-        // Autonomous Move Forward Code
         centreRight.setPower(power);
         centreLeft.setPower(power);
         backRight.setPower(power);
         backLeft.setPower(power);
 
-        // Move forward for set time
+        // Move forward for the set time
         sleep(time);
 
         // Stop the motors
+        stopMotors();
+    }
+
+    public void moveLeft(int power, int time) throws InterruptedException {
+        // Setting -Power can help steer each motor
+        centreRight.setPower(-power);
+        backRight.setPower(-power);
+        centreLeft.setPower(power);
+        backLeft.setPower(power);
+
+        sleep(time);
+
+        stopMotors();
+    }
+
+    public void moveRight(int power, int time) throws InterruptedException {
+        centreRight.setPower(power);
+        backRight.setPower(power);
+        centreLeft.setPower(-power);
+        backLeft.setPower(-power);
+
+        sleep(time);
+
+        stopMotors();
+    }
+
+    public void stopMotors() {
         centreRight.setPower(0);
         centreLeft.setPower(0);
         backRight.setPower(0);
