@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "NessyAutonomous")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "NessyAutonomousV2")
 public class NessyAutonomousDrive extends LinearOpMode {
     // Movement Motors
     protected DcMotor centreRight;

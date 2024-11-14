@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.shared.common.RobotOpMode;
 import org.firstinspires.ftc.teamcode.shared.common.SuperSlowTurnControl;
 
 
-@TeleOp(name = "Nessy Steer Drive V2")
+@TeleOp(name = "Nessy Steer Drive V3")
 public class NessySteerDrive extends RobotOpMode {
     private NessyConfiguration config;
     private DualGamePadSteerDrive drive;
