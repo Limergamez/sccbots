@@ -40,12 +40,12 @@ public class SuperSlowTurnControl extends RobotComponent {
         if (gamepad.left_bumper) {
             leftBackMotor.setPower(-0.25);
             leftFrontMotor.setPower(-0.25);
-            rightBackMotor.setPower(-0.25);
-            rightFrontMotor.setPower(-0.25);
+            rightBackMotor.setPower(+0.25);
+            rightFrontMotor.setPower(+0.25);
         }
         if (gamepad.right_bumper) {
-            leftBackMotor.setPower(+0.25);
-            leftFrontMotor.setPower(+0.25);
+            leftBackMotor.setPower(-0.25);
+            leftFrontMotor.setPower(-0.25);
             rightBackMotor.setPower(+0.25);
             rightFrontMotor.setPower(+0.25);
         }

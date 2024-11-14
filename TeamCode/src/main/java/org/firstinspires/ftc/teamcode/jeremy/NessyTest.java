@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.shared.common.LiftControl;
 import org.firstinspires.ftc.teamcode.shared.common.RobotOpMode;
 
 
-@TeleOp(name = "Nessy Test")
+@TeleOp(name = "Nessy Test V2")
 public class NessyTest extends RobotOpMode {
     private NessyConfiguration config;
     private DualGamePadSteerDrive drive;
