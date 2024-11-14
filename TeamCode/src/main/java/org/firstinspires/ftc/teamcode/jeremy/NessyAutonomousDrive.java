@@ -45,17 +45,17 @@ public class NessyAutonomousDrive extends LinearOpMode {
         sleep(2000);
         closeClaw();
         sleep(2000);
-        moveForward(-0.35, 2000);
+        moveForward(-0.35, 1000);
         sleep(2000);
-        useLift(-0.85, 2000);
+        useLift(-0.65, 500);
         sleep(2000);
-        moveArm(0.37, 1000);
+        moveArm(0.25, 250);
         sleep(2000);
         openClaw();
         sleep(2000);
-        moveArm(-0.37, 1000);
+        moveArm(-0.25, 250);
         sleep(2000);
-        moveForward(0.3, 2000);
+        moveForward(0.3, 1000);
         sleep(2000);
         useLift(0.5, 2000);
     }
