@@ -62,7 +62,7 @@ public class NessyAutonomousDrive extends LinearOpMode {
         // Comes to parking zone, takes specimen off human and places on blue pole
         moveLeft(0.35, 2000);
         moveForward(0.40, 2000);
-        moveLeft(0.35, 800);
+        moveLeft(0.35, 850);
 
     }
 
