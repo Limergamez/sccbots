@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode.jeremy;
-
+// This imports a bunch of pre programmed codes that allows me to more easily work on programming our teams robot
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Nessy Autonomous V3")
 public class NessyAutonomousDriveTimeVersionBackup extends LinearOpMode {
-    // Movement Motors
+    // Movement Motors -- This basically sets up our main component motors which allows my script to control them
     protected DcMotor centreRight;
     protected DcMotor backRight;
     protected DcMotor centreLeft;
@@ -23,7 +23,8 @@ public class NessyAutonomousDriveTimeVersionBackup extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        // Initialize motors
+        // Initialize motors -- This ensures my code understands what each motor is and that our drivers hub can map
+        // them to our robot so it knows what motors to control
         centreRight = hardwareMap.get(DcMotor.class, "centreRight");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         centreLeft = hardwareMap.get(DcMotor.class, "centreLeft");
@@ -36,23 +37,23 @@ public class NessyAutonomousDriveTimeVersionBackup extends LinearOpMode {
         // Set motor directions
         centreRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
-
         armControl = new ArmControl(null, null, armMotor);
 
-        waitForStart();
+        waitForStart(); // This basically means the code is ready to be used and is waiting for my further intructions below
 
-        //Autonomous that grabs specimen and hangs
-        closeClaw();
+        //Autonomous that grabs specimen and hangs -- Below are a set of intructions for what I want the robot to do
+        closeClaw(); // This means that the claw will close (self explanatory)
+        sleep(500); // This means to wait before executing the next step - in this case its waiting half of a second
+        moveForward(-0.35, 1550); // This means our robot will move forwards, the power adjusts the speed and also
+        // if we go back or forwards -- The time similar to the wait is telling the code how long to move forward for (1.55 seconds)
         sleep(500);
-        moveForward(-0.35, 1550);
+        useLift(-0.65, 1300); // This means to use the life again as the forward command it moves up or down
         sleep(500);
-        useLift(-0.65, 1300);
-        sleep(500);
-        moveArm(0.25, 250);
+        moveArm(0.25, 250); // Similar to the lift command however it controls moving the arm back and forth based on the power set
         sleep(500);
         useLift(0.4, 800);
         sleep(500);
-        openClaw();
+        openClaw(); // Opens the claw
         sleep(500);
         moveArm(-0.25, 400);
         sleep(500);
@@ -69,6 +70,8 @@ public class NessyAutonomousDriveTimeVersionBackup extends LinearOpMode {
 
 
     public void moveForward(double power, int time) throws InterruptedException {
+        // This setups what each command is. This one sets up moving forward and backwards for the robot
+        // So when we want to move the robot forwards or backwards we can easily just type moveForward then set the (power) and (time)
         centreRight.setPower(power);
         centreLeft.setPower(power + 0.05);
         backRight.setPower(power + 0.05);
@@ -78,6 +81,7 @@ public class NessyAutonomousDriveTimeVersionBackup extends LinearOpMode {
     }
 
     public void moveLeft(double power, int time) throws InterruptedException {
+        // This is set our the same as move forward. This is applied to every movement in autonomous that we want it to perform
         centreRight.setPower(-power);
         backRight.setPower(-power);
         centreLeft.setPower(power);
