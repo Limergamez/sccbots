@@ -41,26 +41,32 @@ public class NessyAutonomousDrive extends LinearOpMode {
 
         waitForStart();
 
-        // Autonomous sequence
-        sleep(2000);
+        //Autonomous that grabs specimen and hangs
         closeClaw();
-        sleep(2000);
+        sleep(500);
         moveForward(-0.35, 1550);
-        sleep(2000);
+        sleep(500);
         useLift(-0.65, 1300);
-        sleep(2000);
+        sleep(500);
         moveArm(0.25, 250);
-        sleep(2000);
+        sleep(500);
         useLift(0.4, 800);
-        sleep(2000);
+        sleep(500);
         openClaw();
-        sleep(2000);
+        sleep(500);
         moveArm(-0.25, 400);
-        sleep(2000);
+        sleep(500);
         moveForward(0.3, 1500);
-        sleep(2000);
         useLift(0.5, 2000);
+        sleep(500);
+        // Comes to parking zone, takes specimen off human and places on blue pole
+        moveLeft(0.35, 2000);
+        moveForward(0.40, 2000);
+        moveLeft(0.35, 800);
+
     }
+
+
 
     public void moveForward(double power, int time) throws InterruptedException {
         centreRight.setPower(power);
