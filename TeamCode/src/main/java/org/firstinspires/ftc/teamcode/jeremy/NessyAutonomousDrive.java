@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Nessy Autonomous V2")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Nessy Autonomous")
 public class NessyAutonomousDrive extends LinearOpMode {
     // Movement Motors
     protected DcMotor centreRight;
@@ -45,17 +45,19 @@ public class NessyAutonomousDrive extends LinearOpMode {
         sleep(2000);
         closeClaw();
         sleep(2000);
-        moveForward(-0.35, 1000);
+        moveForward(-0.35, 1550);
         sleep(2000);
-        useLift(-0.65, 500);
+        useLift(-0.65, 1300);
         sleep(2000);
         moveArm(0.25, 250);
         sleep(2000);
+        useLift(0.4, 800);
+        sleep(2000);
         openClaw();
         sleep(2000);
-        moveArm(-0.25, 250);
+        moveArm(-0.25, 400);
         sleep(2000);
-        moveForward(0.3, 1000);
+        moveForward(0.3, 1500);
         sleep(2000);
         useLift(0.5, 2000);
     }
