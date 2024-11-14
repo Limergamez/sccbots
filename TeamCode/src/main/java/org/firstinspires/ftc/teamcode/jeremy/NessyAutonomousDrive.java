@@ -46,11 +46,11 @@ public class NessyAutonomousDrive extends LinearOpMode {
         closeClaw();
         sleep(500);
         moveForward(-0.30, 2000);
-        raiseLift(1.0, 2000);
+        useLift(-1.0, 2000);
         openClaw();
         sleep(3000);
-        lowerLift(0.5, 2000);
-        moveArmDown(0.37, 1000);
+        useLift(0.5, 2000);
+        moveArm(-0.37, 1000);
     }
 
     public void moveForward(double power, int time) throws InterruptedException {
@@ -87,24 +87,14 @@ public class NessyAutonomousDrive extends LinearOpMode {
         clawServo.setPosition(0.0);
     }
 
-    public void raiseLift(double power, int time) throws InterruptedException {
-        liftMotor.setPower(-power);
-        sleep(time);
-        liftMotor.setPower(0);
-    }
-    public void lowerLift(double power, int time) throws InterruptedException {
+    public void useLift(double power, int time) throws InterruptedException {
         liftMotor.setPower(power);
         sleep(time);
         liftMotor.setPower(0);
     }
 
-    public void moveArmUp(double power, int time) throws InterruptedException {
+    public void moveArm(double power, int time) throws InterruptedException {
         armMotor.setPower(power);
-        sleep(time);
-        armMotor.setPower(0);
-    }
-    public void moveArmDown(double power, int time) throws InterruptedException {
-        armMotor.setPower(-power);
         sleep(time);
         armMotor.setPower(0);
     }
