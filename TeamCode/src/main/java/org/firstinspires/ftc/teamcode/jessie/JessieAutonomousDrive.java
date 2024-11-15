@@ -44,10 +44,11 @@ public class JessieAutonomousDrive extends LinearOpMode {
         //Autonomous that grabs specimen and hangs -- Below are a set of intructions for what I want the robot to do
         closeClaw(); // This means that the claw will close (self explanatory)
         sleep(500); // This means to wait before executing the next step - in this case its waiting half of a second
-        moveForward(-0.35, 1550); // This means our robot will move forwards, the power adjusts the speed and also
+        moveForward(-0.5, 1550); // This means our robot will move forwards, the power adjusts the speed and also
         // if we go back or forwards -- The time similar to the wait is telling the code how long to move forward for (1.55 seconds)
         sleep(500);
-        useLift(-0.65, 1300); // This means to use the lift again as the forward command it moves up or down
+        useLift(-0.85, 1300); // This means to use the lift again as the forward command it moves up or down
+        useLift(0.85, 1300); // This means to use the lift again as the forward command it moves up or down
         sleep(500);
         moveArm(0.25, 250); // Similar to the lift command however it controls moving the arm back and forth based on the power set
         sleep(500);
@@ -61,7 +62,7 @@ public class JessieAutonomousDrive extends LinearOpMode {
         useLift(0.5, 2000);
         sleep(500);
 
-        // Comes to parking zone, takes specimen off human and places on blue pole
+        /*/ Comes to parking zone, takes specimen off human and places on blue pole
         moveLeft(0.35, 2000);
         moveForward(0.40, 2000);
         moveLeft(0.35, 850);
@@ -69,7 +70,7 @@ public class JessieAutonomousDrive extends LinearOpMode {
         openClaw();
         sleep(300);
         closeClaw();
-        moveArm(0.25, 350);
+        moveArm(0.25, 350); /*/
 
     }
 

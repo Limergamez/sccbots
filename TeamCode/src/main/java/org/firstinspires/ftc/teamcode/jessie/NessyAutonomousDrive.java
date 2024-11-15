@@ -50,7 +50,7 @@ public class NessyAutonomousDrive extends LinearOpMode {
 
         // Use encoders to move forward a certain distance in mm
         moveWithEncoders(0.5, 500, 500); // Move forward 500 mm
-        sleep(500);
+
     }
 
     public void moveWithEncoders(double power, double left, double right) {
@@ -93,6 +93,28 @@ public class NessyAutonomousDrive extends LinearOpMode {
             centreRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             centreLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+    }
+    public void useLiftWithEncoders(double power, double left, double right) {
+        // Reset encoders
+        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        // Set to RUN_TO_POSITION mode
+        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // Start moving the lift
+        liftMotor.setPower(power);
+
+
+        // Wait for motors to reach their targets
+        while (opModeIsActive() && (liftMotor.isBusy())) {
+            telemetry.addData("Lift", liftMotor.getCurrentPosition());
+            telemetry.update();
+            sleep(50);
+
+
+            // Set motors back to RUN_USING_ENCODER mode
+            liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
 }
