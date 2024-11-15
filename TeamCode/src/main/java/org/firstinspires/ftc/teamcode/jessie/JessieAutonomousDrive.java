@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.jeremy;
+package org.firstinspires.ftc.teamcode.jessie;
 // This imports a bunch of pre programmed codes that allows me to more easily work on programming our teams robot
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Nessy Autonomous V3")
-public class NessyAutonomousDriveTimeVersionBackup extends LinearOpMode {
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Jessie Autonomous V3")
+public class JessieAutonomousDrive extends LinearOpMode {
     // Movement Motors -- This basically sets up our main component motors which allows my script to control them
     protected DcMotor centreRight;
     protected DcMotor backRight;
@@ -47,7 +47,7 @@ public class NessyAutonomousDriveTimeVersionBackup extends LinearOpMode {
         moveForward(-0.35, 1550); // This means our robot will move forwards, the power adjusts the speed and also
         // if we go back or forwards -- The time similar to the wait is telling the code how long to move forward for (1.55 seconds)
         sleep(500);
-        useLift(-0.65, 1300); // This means to use the life again as the forward command it moves up or down
+        useLift(-0.65, 1300); // This means to use the lift again as the forward command it moves up or down
         sleep(500);
         moveArm(0.25, 250); // Similar to the lift command however it controls moving the arm back and forth based on the power set
         sleep(500);
@@ -60,10 +60,16 @@ public class NessyAutonomousDriveTimeVersionBackup extends LinearOpMode {
         moveForward(0.3, 1500);
         useLift(0.5, 2000);
         sleep(500);
+
         // Comes to parking zone, takes specimen off human and places on blue pole
         moveLeft(0.35, 2000);
         moveForward(0.40, 2000);
         moveLeft(0.35, 850);
+        moveArm(-0.25, 350);
+        openClaw();
+        sleep(300);
+        closeClaw();
+        moveArm(0.25, 350);
 
     }
 
