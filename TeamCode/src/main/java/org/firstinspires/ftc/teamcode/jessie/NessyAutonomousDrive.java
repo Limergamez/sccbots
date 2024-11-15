@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
 import org.firstinspires.ftc.teamcode.shared.common.DualGamePadSteerDrive;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Nessy Autonomous V4")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Nessy Autonomous V6")
 public class NessyAutonomousDrive extends LinearOpMode {
     // Movement Motors
     protected DcMotor centreRight;
@@ -40,9 +40,6 @@ public class NessyAutonomousDrive extends LinearOpMode {
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
         armMotor = hardwareMap.get(DcMotor.class, "armMotor");
 
-        // Set motor directions
-        centreRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         armControl = new ArmControl(null, null, armMotor);
 
@@ -59,6 +56,21 @@ public class NessyAutonomousDrive extends LinearOpMode {
         centreRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         centreLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        centreRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        centreLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // Set motor directions
+        centreLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        //Set motors to brake when 0
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        centreLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        centreRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Set target positions for the motors
         int leftTarget = (int) (left * COUNTS_PER_MM);
@@ -86,13 +98,33 @@ public class NessyAutonomousDrive extends LinearOpMode {
             telemetry.addData("Right Position", backRight.getCurrentPosition());
             telemetry.update();
             sleep(50);  // Sleep for stability
-
-
-            // Set motors back to RUN_USING_ENCODER mode
-            backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            centreRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            centreLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
+
+        backRight.setPower(0.0);
+        centreRight.setPower(0.0);
+        backLeft.setPower(0.0);
+        centreLeft.setPower(0.0);
     }
+
+    public void openClaw() {
+        clawServo.setPosition(1.0);
+    }
+    public void closeClaw() {
+        clawServo.setPosition(0.0);
+    }
+
+    public void useLift(double power, int time) throws InterruptedException {
+        liftMotor.setPower(power);
+        sleep(time);
+        liftMotor.setPower(0);
+    }
+
+    public void moveArm(double power, int time) throws InterruptedException {
+        armMotor.setPower(power);
+        sleep(time);
+        armMotor.setPower(0);
+    }
+
+
+
 }
