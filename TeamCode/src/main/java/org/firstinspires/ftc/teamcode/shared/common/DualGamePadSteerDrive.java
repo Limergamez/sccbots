@@ -45,6 +45,54 @@ public class DualGamePadSteerDrive extends RobotComponent {
         rawPowerItem.setRetained(true);
     }
 
+
+    public void setToFloat() {
+        rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rightFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        leftBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        leftFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+    }
+
+    public void setEncoder(boolean encoder) {
+        if (encoder) {
+            rightBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            leftBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            leftFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        } else {
+            rightBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+    }
+
+    public void setTargetPosition(double backLeftDistance, double backRightDistance, double frontLeftDistance, double frontRightDistance) {
+
+        int newFrontLeftTarget;
+        int newFrontRightTarget;
+        int newBackLeftTarget;
+        int newBackRightTarget;
+        newFrontLeftTarget = rightBackMotor.getCurrentPosition() + (int) frontLeftDistance;
+        newFrontRightTarget = rightFrontMotor.getCurrentPosition() + (int) frontRightDistance;
+        newBackLeftTarget = leftBackMotor.getCurrentPosition() + (int) backLeftDistance;
+        newBackRightTarget = leftFrontMotor.getCurrentPosition() + (int) backRightDistance;
+        leftFrontMotor.setTargetPosition(newFrontLeftTarget);
+        rightFrontMotor.setTargetPosition(newFrontRightTarget);
+        leftBackMotor.setTargetPosition(newBackLeftTarget);
+        rightBackMotor.setTargetPosition(newBackRightTarget);
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+    }
+
     /*
      * Update the motor power based on the gamepad state
      */

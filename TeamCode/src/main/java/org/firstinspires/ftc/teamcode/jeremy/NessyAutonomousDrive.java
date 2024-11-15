@@ -6,8 +6,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
+import org.firstinspires.ftc.teamcode.shared.common.DualGamePadSteerDrive;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Nessy Autonomous V3")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Nessy Autonomous V4")
 public class NessyAutonomousDrive extends LinearOpMode {
     // Movement Motors
     protected DcMotor centreRight;
@@ -20,6 +21,12 @@ public class NessyAutonomousDrive extends LinearOpMode {
     protected DcMotor liftMotor;
     protected DcMotor armMotor;
     protected ArmControl armControl;
+
+    static final double COUNTS_PER_MOTOR_REV = 537.6; // Counts for a REV motor
+    static final double DRIVE_GEAR_REDUCTION = 1.0; // No gear reduction
+    static final double WHEEL_DIAMETER_MM = 100.0;  // Wheel diameter in mm (adjust to your wheel size)
+    static final double COUNTS_PER_MM = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_MM * Math.PI);
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -41,83 +48,51 @@ public class NessyAutonomousDrive extends LinearOpMode {
 
         waitForStart();
 
-        //Autonomous that grabs specimen and hangs
-        closeClaw();
+        // Use encoders to move forward a certain distance in mm
+        moveWithEncoders(0.5, 500, 500); // Move forward 500 mm
         sleep(500);
-        moveForward(-0.35, 1550);
-        sleep(500);
-        useLift(-0.65, 1300);
-        sleep(500);
-        moveArm(0.25, 250);
-        sleep(500);
-        useLift(0.4, 800);
-        sleep(500);
-        openClaw();
-        sleep(500);
-        moveArm(-0.25, 400);
-        sleep(500);
-        moveForward(0.3, 1500);
-        useLift(0.5, 2000);
-        sleep(500);
-        // Comes to parking zone, takes specimen off human and places on blue pole
-        moveLeft(0.35, 2000);
-        moveForward(0.40, 2000);
-        moveLeft(0.35, 850);
-
     }
 
+    public void moveWithEncoders(double power, double left, double right) {
+        // Reset encoders
+        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        centreRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        centreLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        // Set target positions for the motors
+        int leftTarget = (int) (left * COUNTS_PER_MM);
+        int rightTarget = (int) (right * COUNTS_PER_MM);
+        backRight.setTargetPosition(rightTarget);
+        centreRight.setTargetPosition(rightTarget);
+        backLeft.setTargetPosition(leftTarget);
+        centreLeft.setTargetPosition(leftTarget);
 
-    public void moveForward(double power, int time) throws InterruptedException {
-        centreRight.setPower(power);
-        centreLeft.setPower(power + 0.05);
-        backRight.setPower(power + 0.05);
-        backLeft.setPower(power);
-        sleep(time);
-        stopMotors();
-    }
+        // Set to RUN_TO_POSITION mode
+        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        centreRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        centreLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-    public void moveLeft(double power, int time) throws InterruptedException {
-        centreRight.setPower(-power);
-        backRight.setPower(-power);
-        centreLeft.setPower(power);
-        backLeft.setPower(power);
-        sleep(time);
-        stopMotors();
-    }
-
-    public void moveRight(double power, int time) throws InterruptedException {
-        centreRight.setPower(power);
+        // Start moving the motors
         backRight.setPower(power);
-        centreLeft.setPower(-power);
-        backLeft.setPower(-power);
-        sleep(time);
-        stopMotors();
-    }
+        centreRight.setPower(power);
+        backLeft.setPower(power);
+        centreLeft.setPower(power);
 
-    public void openClaw() {
-        clawServo.setPosition(1.0);
-    }
-    public void closeClaw() {
-        clawServo.setPosition(0.0);
-    }
+        // Wait for motors to reach their targets
+        while (opModeIsActive() && (backRight.isBusy() || centreRight.isBusy() || backLeft.isBusy() || centreLeft.isBusy())) {
+            telemetry.addData("Left Position", backLeft.getCurrentPosition());
+            telemetry.addData("Right Position", backRight.getCurrentPosition());
+            telemetry.update();
+            sleep(50);  // Sleep for stability
 
-    public void useLift(double power, int time) throws InterruptedException {
-        liftMotor.setPower(power);
-        sleep(time);
-        liftMotor.setPower(0);
-    }
 
-    public void moveArm(double power, int time) throws InterruptedException {
-        armMotor.setPower(power);
-        sleep(time);
-        armMotor.setPower(0);
-    }
-
-    public void stopMotors() {
-        centreRight.setPower(0);
-        centreLeft.setPower(0);
-        backRight.setPower(0);
-        backLeft.setPower(0);
+            // Set motors back to RUN_USING_ENCODER mode
+            backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            centreRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            centreLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
     }
 }
