@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
 import org.firstinspires.ftc.teamcode.shared.common.DualGamePadSteerDrive;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Nessy Autonomous V6")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Nessy Autonomous V10")
 public class NessyAutonomousDrive extends LinearOpMode {
     // Movement Motors
     protected DcMotor centreRight;
@@ -46,8 +46,27 @@ public class NessyAutonomousDrive extends LinearOpMode {
         waitForStart();
 
         // Use encoders to move forward a certain distance in mm
-        moveWithEncoders(0.5, 500, 500); // Move forward 500 mm
-        sleep(500);
+        closeClaw();
+        sleep(1000);
+        moveWithEncoders(0.5, 630, 630); // Move forward 500 mm
+        sleep(10);
+        useLift(-1, 1700);
+        sleep(100);
+        moveArm(0.40, 250);
+        sleep(50);
+        useLift(1, 750);
+        sleep(100);
+        openClaw();
+        sleep(150);
+        moveArm(-0.50, 250);
+        sleep(10);
+        useLift(1, 750);
+        sleep(50);
+        moveWithEncoders(0.5, -500, -500);
+        sleep(10);
+        moveWithEncoders(0.5, 298, -298);
+        sleep(10);
+        moveWithEncoders(1, 800, 800);
     }
 
     public void moveWithEncoders(double power, double left, double right) {
