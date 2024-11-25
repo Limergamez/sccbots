@@ -15,7 +15,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
 @TeleOp(name = "Sensor: SparkFun OTOS", group = "Sensor")
-@Disabled
 public class TessySensorSparkFunOTOS extends LinearOpMode {
     SparkFunOTOS myOtos;
 
@@ -57,7 +56,7 @@ public class TessySensorSparkFunOTOS extends LinearOpMode {
         // persisted in the sensor, so you need to set at the start of all your
         // OpModes if using the non-default value.
         // myOtos.setLinearUnit(DistanceUnit.METER);
-        myOtos.setLinearUnit(DistanceUnit.INCH);
+        myOtos.setLinearUnit(DistanceUnit.MM);
         // myOtos.setAngularUnit(AnguleUnit.RADIANS);
         myOtos.setAngularUnit(AngleUnit.DEGREES);
 

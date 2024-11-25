@@ -37,12 +37,8 @@ public class DualGamePadSteerDriveMecanum extends RobotComponent {
     public void update() {
         double forward = -gamepad.left_stick_y;
         double rotate = gamepad.right_stick_x;
-        double strafe = 0;
-        if (gamepad.dpad_left) {
-            strafe = -1;
-        } else if (gamepad.dpad_right) {
-            strafe = 1;
-        }
+        double strafe = gamepad.left_stick_x;
+
         double speedMultiplier = gamepad.right_bumper ? SLOW_MODE_MULTIPLIER : 1.0;
 
         // Set power for forward/backward movement
