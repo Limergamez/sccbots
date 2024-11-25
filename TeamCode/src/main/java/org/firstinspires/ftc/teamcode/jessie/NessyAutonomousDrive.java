@@ -47,14 +47,14 @@ public class NessyAutonomousDrive extends LinearOpMode {
 
         // Use encoders to move forward a certain distance in mm
         closeClaw();
-        sleep(1000);
-        moveWithEncoders(0.5, 630, 630);
+        sleep(50);
+        moveWithEncoders(0.5, 650, 650);
         sleep(10);
         useLift(-1, 1250);
         sleep(100);
         moveArm(0.55, 250);
         sleep(50);
-        useLift(1, 300); //lessen time to stop lift drag
+        useLift(1, 350);
         sleep(100);
         openClaw();
         sleep(150);
@@ -67,6 +67,8 @@ public class NessyAutonomousDrive extends LinearOpMode {
         moveWithEncoders(0.5, 315, -315);
         sleep(10);
         moveWithEncoders(1, 1200, 1200);
+        sleep(10);
+        moveWithEncoders(0.5, -300, 300);
     }
 
     public void moveWithEncoders(double power, double left, double right) {
