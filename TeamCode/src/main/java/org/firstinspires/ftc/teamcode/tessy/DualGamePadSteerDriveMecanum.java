@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.tessy;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.shared.common.RobotComponent;
 import org.firstinspires.ftc.teamcode.shared.common.RobotOpMode;
@@ -20,7 +21,11 @@ public class DualGamePadSteerDriveMecanum extends RobotComponent {
 
     private static final double SLOW_MODE_MULTIPLIER = 0.5;
 
-    public DualGamePadSteerDriveMecanum(RobotOpMode opMode, Gamepad gamepad, DcMotor leftBackMotor, DcMotor rightBackMotor, DcMotor leftFrontMotor, DcMotor rightFrontMotor) {
+    public DualGamePadSteerDriveMecanum(RobotOpMode opMode, Gamepad gamepad,
+                                        DcMotor leftBackMotor,
+                                        DcMotor rightBackMotor,
+                                        DcMotor leftFrontMotor,
+                                        DcMotor rightFrontMotor) {
         super(opMode);
         this.gamepad = gamepad;
         this.leftBackMotor = leftBackMotor;
