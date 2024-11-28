@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.shared.common.RobotComponent;
 import org.firstinspires.ftc.teamcode.shared.common.RobotOpMode;
-import org.firstinspires.ftc.teamcode.tessy.DualGamePadSteerDriveMecanum;
 
 public class NormalisedMecanumDrive extends RobotComponent {
 
@@ -24,22 +23,22 @@ public class NormalisedMecanumDrive extends RobotComponent {
     private double speedR = 0.0;
 
     private RobotOpMode opMode;
-    private DcMotor leftBackMotor;
-    private DcMotor frontRightMotor;
-    private DcMotor backLeftMotor;
-    private DcMotor backRightMotor;
+    private final DcMotor frontLeftMotor;
+    private final DcMotor frontRightMotor;
+    private final DcMotor backLeftMotor;
+    private final DcMotor backRightMotor;
 
     private final Telemetry.Item item;
     private boolean showTelemetry = true;
 
 
     public NormalisedMecanumDrive(RobotOpMode opmode,
-                                  DcMotor leftBackMotor, DcMotor rightBackMotor,
-                                  DcMotor leftFrontMotor, DcMotor rightFrontMotor,
+                                  DcMotor frontLeftMotor, DcMotor frontRightMotor,
+                                  DcMotor backLeftMotor, DcMotor backRightMotor,
                                   boolean showTelemetry) {
         super(opmode);
         this.opMode = opmode;
-        this.leftBackMotor = leftBackMotor;
+        this.frontLeftMotor = frontLeftMotor;
         this.frontRightMotor = frontRightMotor;
         this.backLeftMotor = backLeftMotor;
         this.backRightMotor = backRightMotor;
@@ -89,21 +88,21 @@ public class NormalisedMecanumDrive extends RobotComponent {
 
     private void updateNormalized() {
         //calculate motor powers
-        double leftBackMotor = speedX + speedY - speedR;
+        double frontLeftPower = speedX + speedY - speedR;
         double frontRightPower = speedX - speedY + speedR;
         double backLeftPower = speedX - speedY - speedR;
         double backRightPower = speedX + speedY + speedR;
 
-        double maxPower = Math.max(Math.abs(leftBackMotor), Math.max(Math.abs(frontRightPower), Math.max(Math.abs(backLeftPower), Math.abs(backRightPower))));
+        double maxPower = Math.max(Math.abs(frontLeftPower), Math.max(Math.abs(frontRightPower), Math.max(Math.abs(backLeftPower), Math.abs(backRightPower))));
         // If the maximum number is greater than 1.0, then normalise by that number
         if (maxPower > 1.0) {
-            leftBackMotor = leftBackMotor / maxPower;
+            frontLeftPower = frontLeftPower / maxPower;
             frontRightPower = frontRightPower / maxPower;
             backLeftPower = backLeftPower / maxPower;
             backRightPower = backRightPower / maxPower;
         }
 
-        this.leftBackMotor.setPower(leftBackMotor);
+        frontLeftMotor.setPower(frontLeftPower);
         frontRightMotor.setPower(frontRightPower);
         backLeftMotor.setPower(backLeftPower);
         backRightMotor.setPower(backRightPower);
@@ -143,12 +142,12 @@ public class NormalisedMecanumDrive extends RobotComponent {
             }
         }
 
-        double leftBackMotor = translationValues[0] * scaleFactor + rotationValues[0];
+        double frontLeftPower = translationValues[0] * scaleFactor + rotationValues[0];
         double frontRightPower = translationValues[1] * scaleFactor + rotationValues[1];
         double backLeftPower = translationValues[2] * scaleFactor + rotationValues[2];
         double backRightPower = translationValues[3] * scaleFactor + rotationValues[3];
 
-        leftBackMotor.setPower(leftBackMotor);
+        frontLeftMotor.setPower(frontLeftPower);
         frontRightMotor.setPower(frontRightPower);
         backLeftMotor.setPower(backLeftPower);
         backRightMotor.setPower(backRightPower);
