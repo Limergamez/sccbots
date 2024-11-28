@@ -11,14 +11,7 @@ public class TessySteerDriveMecanum extends RobotOpMode {
     @Override
     protected void onInit() {
         config = TessyConfiguration.newConfig(hardwareMap, telemetry);
-        drive = new DualGamePadSteerDriveMecanum(
-                this,
-                gamepad1,
-                config.leftBackMotor,
-                config.rightBackMotor,
-                config.leftFrontMotor,
-                config.rightFrontMotor
-        );
+        drive = new DualGamePadSteerDriveMecanum(this, gamepad1, config.leftBackMotor, config.rightBackMotor, config.leftFrontMotor, config.rightFrontMotor);
     }
 
     @Override
