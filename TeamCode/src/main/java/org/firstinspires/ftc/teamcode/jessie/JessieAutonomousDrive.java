@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.jessie;
 // This imports a bunch of pre programmed codes that allows me to more easily work on programming our teams robot
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Jessie Autonomous V3")
+@Disabled
 public class JessieAutonomousDrive extends LinearOpMode {
     // Movement Motors -- This basically sets up our main component motors which allows my script to control them
     protected DcMotor centreRight;

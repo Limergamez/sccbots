@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.jessie;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.shared.common.RobotOpMode;
 
 
 @TeleOp(name = "Nessy Test V2")
+@Disabled
 public class NessyTest extends RobotOpMode {
     private NessyConfiguration config;
     private DualGamePadSteerDrive drive;

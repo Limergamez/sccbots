@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.jeremy;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Nessy Autonomous Encoder Back Up")
+@Disabled
 public class NessyAutonomousDriveBackUp extends LinearOpMode {
     // Movement Motors
     protected DcMotor centreRight;

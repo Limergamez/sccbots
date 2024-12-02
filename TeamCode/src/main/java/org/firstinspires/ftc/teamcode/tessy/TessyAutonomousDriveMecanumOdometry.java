@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.tessy;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name = "Tessy Odometry Autonomous")
+@Disabled
 public class TessyAutonomousDriveMecanumOdometry extends LinearOpMode {
 
     protected DcMotor leftBackMotor;

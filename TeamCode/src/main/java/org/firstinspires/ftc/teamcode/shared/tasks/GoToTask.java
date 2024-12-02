@@ -40,6 +40,7 @@ public class GoToTask implements Task {
 
     @Override
     public boolean isFinished() {
-        return{distane <= error};
+        return distance <= error;
     }
+
 }
