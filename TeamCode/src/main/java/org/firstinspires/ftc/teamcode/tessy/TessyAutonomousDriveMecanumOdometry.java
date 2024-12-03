@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@Autonomous(name = "Tessy Odometry Autonomous")
+@Autonomous(name = "Tessy Encoder-Based Odometry Autonomous")
 @Disabled
 public class TessyAutonomousDriveMecanumOdometry extends LinearOpMode {
 
@@ -15,8 +15,8 @@ public class TessyAutonomousDriveMecanumOdometry extends LinearOpMode {
     protected DcMotor leftFrontMotor;
     protected DcMotor rightFrontMotor;
 
-    private static final double TICKS_PER_REV = 8192;
-    private static final double WHEEL_DIAMETER_MM = 96;
+    private static final double TICKS_PER_REV = 537.7; // Verify for your motors
+    private static final double WHEEL_DIAMETER_MM = 104; // Verify for your wheels
     private static final double MM_PER_TICK = (Math.PI * WHEEL_DIAMETER_MM) / TICKS_PER_REV;
 
     private double xPosition = 0;
@@ -27,21 +27,17 @@ public class TessyAutonomousDriveMecanumOdometry extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        xPosition = 0;
-        yPosition = 0;
-        /* So this sets our starting position on the field. Basically if we marked middle of
-        field as starting then we set positions above to 0 so it knows that's 0.
-        To move X strafes the robot, while Y moves forwards and back. If we wanted to move 50 cm
-        to the left then we call in moveToPosition: moveToPosition(500, 0, 0.5); */
-
+        // Initialize motors
         leftFrontMotor = hardwareMap.get(DcMotor.class, "leftFrontMotor");
         rightFrontMotor = hardwareMap.get(DcMotor.class, "rightFrontMotor");
         leftBackMotor = hardwareMap.get(DcMotor.class, "leftBackMotor");
         rightBackMotor = hardwareMap.get(DcMotor.class, "rightBackMotor");
 
+        // Set motor directions
         leftBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        // Set zero power behavior
         leftFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -49,54 +45,63 @@ public class TessyAutonomousDriveMecanumOdometry extends LinearOpMode {
 
         resetEncoders();
 
+        // Wait for start
+        telemetry.addLine("Waiting for start...");
+        telemetry.update();
         waitForStart();
 
-        moveToPosition(500, 1000, 0.5); // This should move 50 mm to left and 1000 mm forward.
+        if (opModeIsActive()) {
+            // Example movement: 50 mm left, 1000 mm forward
+            moveToPosition(50, 1000, 0.5);
+        }
     }
 
     private void moveToPosition(double targetX, double targetY, double power) {
-        while (opModeIsActive()) {
+        // Move along the X-axis (strafe)
+        moveAlongAxis(targetX - xPosition, true, power);
+
+        // Move along the Y-axis (forward/backward)
+        moveAlongAxis(targetY - yPosition, false, power);
+
+        stopMotors(); // Ensure motors are stopped at the end
+    }
+
+    private void moveAlongAxis(double distance, boolean isStrafe, double power) {
+        double direction = distance > 0 ? 1 : -1; // Determine movement direction
+        double targetDistance = Math.abs(distance);
+
+        while (opModeIsActive() && targetDistance > 5) { // Threshold in mm
             updateOdometry();
 
-            double deltaX = targetX - xPosition;
-            double deltaY = targetY - yPosition;
+            double currentDistance = isStrafe ? Math.abs(xPosition) : Math.abs(yPosition);
+            targetDistance = Math.abs(distance) - currentDistance;
 
-            if (Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) {
+            telemetry.addData("Target Distance", targetDistance);
+            telemetry.addData("X Position", xPosition);
+            telemetry.addData("Y Position", yPosition);
+            telemetry.update();
+
+            if (targetDistance < 5) {
                 stopMotors();
                 break;
             }
 
-            double strafePower = deltaX > 0 ? power : -power;
-            double forwardPower = deltaY > 0 ? power : -power;
+            double movementPower = direction * power;
 
-            setForwardPower(forwardPower);
-            setStrafePower(strafePower);
+            if (isStrafe) {
+                setStrafePower(movementPower);
+            } else {
+                setForwardPower(movementPower);
+            }
         }
     }
 
     private void setForwardPower(double forwardPower) {
-        double leftFrontPower = -forwardPower;
-        double rightFrontPower = forwardPower;
-        double leftBackPower = forwardPower;
-        double rightBackPower = -forwardPower;
-
-        setMotorPowers(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+        setMotorPowers(-forwardPower, forwardPower, forwardPower, -forwardPower);
     }
 
-    private void setStrafePower(double strafepower) {
-        double leftFrontPower = + strafepower;
-        double rightFrontPower = + strafepower;
-        double leftBackPower = - strafepower;
-        double rightBackPower = - strafepower;
-
-        setMotorPowers(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
-
-    }
-
-    public void rotateClockwise(double power, long duration) throws InterruptedException {
-        setRotationPower(power);
-        sleep(duration);
-        stopMotors();
+    private void setStrafePower(double strafePower) {
+        setMotorPowers(strafePower, strafePower, -strafePower, -strafePower);
     }
 
     private void setMotorPowers(double leftFrontPower, double rightFrontPower, double leftBackPower, double rightBackPower) {
@@ -105,31 +110,14 @@ public class TessyAutonomousDriveMecanumOdometry extends LinearOpMode {
         maxPower = Math.max(maxPower, Math.abs(leftBackPower));
         maxPower = Math.max(maxPower, Math.abs(rightBackPower));
 
-        leftFrontPower /= maxPower;
-        rightFrontPower /= maxPower;
-        leftBackPower /= maxPower;
-        rightBackPower /= maxPower;
-
-        leftFrontMotor.setPower(leftFrontPower);
-        rightFrontMotor.setPower(rightFrontPower);
-        leftBackMotor.setPower(leftBackPower);
-        rightBackMotor.setPower(rightBackPower);
+        leftFrontMotor.setPower(leftFrontPower / maxPower);
+        rightFrontMotor.setPower(rightFrontPower / maxPower);
+        leftBackMotor.setPower(leftBackPower / maxPower);
+        rightBackMotor.setPower(rightBackPower / maxPower);
     }
-    private void setRotationPower(double power) {
-        double leftFrontPower = power;
-        double rightFrontPower = -power;
-        double leftBackPower = power;
-        double rightBackPower = -power;
-
-        setMotorPowers(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
-    }
-
 
     private void stopMotors() {
-        leftFrontMotor.setPower(0);
-        rightFrontMotor.setPower(0);
-        leftBackMotor.setPower(0);
-        rightBackMotor.setPower(0);
+        setMotorPowers(0, 0, 0, 0);
     }
 
     private void resetEncoders() {
@@ -153,8 +141,8 @@ public class TessyAutonomousDriveMecanumOdometry extends LinearOpMode {
         double rightDelta = (rightEncoder - lastRightEncoder) * MM_PER_TICK;
         double horizontalDelta = (horizontalEncoder - lastHorizontalEncoder) * MM_PER_TICK;
 
-        double deltaX = (leftDelta + rightDelta) / 2.0;
-        double deltaY = horizontalDelta;
+        double deltaX = horizontalDelta;
+        double deltaY = (leftDelta + rightDelta) / 2.0;
 
         xPosition += deltaX;
         yPosition += deltaY;

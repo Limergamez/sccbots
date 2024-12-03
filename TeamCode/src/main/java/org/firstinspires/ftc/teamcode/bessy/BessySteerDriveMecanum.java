@@ -1,16 +1,17 @@
-package org.firstinspires.ftc.teamcode.tessy;
+package org.firstinspires.ftc.teamcode.bessy;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
 import org.firstinspires.ftc.teamcode.shared.common.ClawControl;
 import org.firstinspires.ftc.teamcode.shared.common.ClimbControl;
-import org.firstinspires.ftc.teamcode.tessy.DualGamePadSteerDriveMecanum;
 import org.firstinspires.ftc.teamcode.shared.common.LiftControl;
 import org.firstinspires.ftc.teamcode.shared.common.RobotOpMode;
+import org.firstinspires.ftc.teamcode.tessy.DualGamePadSteerDriveMecanum;
+import org.firstinspires.ftc.teamcode.tessy.TessyConfiguration;
 
 @TeleOp(name = "Bessy Steer Drive Mecanum")
-public class TessySteerDriveMecanum extends RobotOpMode {
+public class BessySteerDriveMecanum extends RobotOpMode {
     private TessyConfiguration config;
     private DualGamePadSteerDriveMecanum drive;
     private LiftControl liftControl;

@@ -1,18 +1,19 @@
-package org.firstinspires.ftc.teamcode.tessy;
+package org.firstinspires.ftc.teamcode.bessy;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
 import org.firstinspires.ftc.teamcode.shared.common.ClawControl;
 import org.firstinspires.ftc.teamcode.shared.common.ClimbControl;
-import org.firstinspires.ftc.teamcode.tessy.DualGamePadSteerDriveMecanum;
 import org.firstinspires.ftc.teamcode.shared.common.LiftControl;
 import org.firstinspires.ftc.teamcode.shared.common.RobotOpMode;
+import org.firstinspires.ftc.teamcode.tessy.DualGamePadSteerDriveMecanum;
+import org.firstinspires.ftc.teamcode.tessy.TessyConfiguration;
 
-@TeleOp(name = "Bessy Steer Drive Mecanum")
-public class TessySteerDriveMecanum extends RobotOpMode {
+@TeleOp(name = "Bessy One Controller Mecanum")
+public class BessyOneControllerDriveMecanum extends RobotOpMode {
     private TessyConfiguration config;
-    private DualGamePadSteerDriveMecanum drive;
+    private org.firstinspires.ftc.teamcode.tessy.DualGamePadSteerDriveMecanum drive;
     private LiftControl liftControl;
     private ClimbControl climbControl;
     private ClawControl clawControl;
@@ -31,10 +32,10 @@ public class TessySteerDriveMecanum extends RobotOpMode {
                 config.rightFrontMotor
         );
 
-        liftControl = new LiftControl(this, gamepad2, config.liftMotor);
-        climbControl = new ClimbControl(this, gamepad2, config.climbMotor);
-        clawControl = new ClawControl(this, gamepad2, config.clawServo);
-        armControl = new ArmControl(this, gamepad2, config.armMotor);
+        liftControl = new LiftControl(this, gamepad1, config.liftMotor);
+        climbControl = new ClimbControl(this, gamepad1, config.climbMotor);
+        clawControl = new ClawControl(this, gamepad1, config.clawServo);
+        armControl = new ArmControl(this, gamepad1, config.armMotor);
     }
 
     @Override

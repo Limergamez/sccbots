@@ -14,11 +14,11 @@ public class LiftControl extends RobotComponent{
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
     public void update() {
-        if(gamepad.right_trigger>0) {
-            liftMotor.setPower(gamepad.right_trigger);
+        if(gamepad.left_trigger>0) {
+            liftMotor.setPower(gamepad.left_trigger);
         }
-        else if(gamepad.left_trigger>0) {
-            liftMotor.setPower(-gamepad.left_trigger);
+        else if(gamepad.right_trigger>0) {
+            liftMotor.setPower(-gamepad.right_trigger);
         }
         else {
             liftMotor.setPower(0);
