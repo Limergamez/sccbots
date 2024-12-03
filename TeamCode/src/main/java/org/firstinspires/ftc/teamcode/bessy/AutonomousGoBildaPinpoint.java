@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Autonomous(name = "Bessy Mecanum Autonomous Rename")
+@Autonomous(name = "Bessy Mecanum Autonomous New")
 public class AutonomousGoBildaPinpoint extends LinearOpMode {
 
     // Motor and odometry setup
