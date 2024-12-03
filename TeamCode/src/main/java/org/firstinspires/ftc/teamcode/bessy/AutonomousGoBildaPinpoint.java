@@ -4,10 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Autonomous(name = "Bessy Mecanum Autonomous")
+@Autonomous(name = "Bessy Mecanum Autonomous Rename")
 public class AutonomousGoBildaPinpoint extends LinearOpMode {
 
     // Motor and odometry setup
@@ -59,13 +58,14 @@ public class AutonomousGoBildaPinpoint extends LinearOpMode {
         resetRuntime();
 
         // Autonomous action sequence
-        moveForward(300, 0.5);
+        moveForward(300, 0.25);
     }
 
     // Move the robot forward for a specified distance
     private void moveForward(double distance, double speed) {
-        odo.resetPosAndIMU();
-        double targetPosition = odo.getPosition().getX(DistanceUnit.MM) + distance;
+        odo.resetPosAndIMU();  // Reset odometry system to start fresh
+        double initialX = odo.getPosition().getX(DistanceUnit.MM);  // Capture initial position for reference
+        double targetPosition = initialX + distance;  // Set the target position for movement
 
         while (opModeIsActive() && odo.getPosition().getX(DistanceUnit.MM) < targetPosition) {
             double leftFrontPower = speed;
@@ -76,12 +76,21 @@ public class AutonomousGoBildaPinpoint extends LinearOpMode {
             // Normalize motor powers if needed
             normalizeMotorPowers(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
 
+            // Set motor powers
             setMotorPowers(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
-            telemetry.addData("Moving Forward", "Distance: %.2f", odo.getPosition().getX(DistanceUnit.MM));
+
+            // Update telemetry for odometry and motor power
+            double currentX = odo.getPosition().getX(DistanceUnit.MM);
+            telemetry.addData("Current X Position (mm)", currentX);
+            telemetry.addData("Target X Position (mm)", targetPosition);
+            telemetry.addData("Distance Traveled (mm)", currentX - initialX);
+            telemetry.addData("Motor Power", "LeftFront: %.2f, RightFront: %.2f", leftFrontPower, rightFrontPower);
+            telemetry.addData("Motor Power", "LeftBack: %.2f, RightBack: %.2f", leftBackPower, rightBackPower);
             telemetry.update();
         }
         stopMotors();
     }
+
 
     // Normalize motor powers to ensure none exceed the maximum power
     private void normalizeMotorPowers(double leftFrontPower, double rightFrontPower,
