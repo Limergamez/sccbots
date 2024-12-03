@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.shared.common.RobotOpMode;
 import org.firstinspires.ftc.teamcode.tessy.DualGamePadSteerDriveMecanum;
 import org.firstinspires.ftc.teamcode.tessy.TessyConfiguration;
 
-@TeleOp(name = "Bessy Steer Drive Mecanum")
+@TeleOp(name = "Bessy Steer Drive Renamed")
 public class BessySteerDriveMecanum extends RobotOpMode {
     private TessyConfiguration config;
     private DualGamePadSteerDriveMecanum drive;

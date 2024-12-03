@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.bessy;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.shared.common.RobotOpMode;
+
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Bessy Mecanum Autonomous")
 
 public class AutonomousGoBildaPinpoint extends LinearOpMode {
 
@@ -56,20 +59,28 @@ public class AutonomousGoBildaPinpoint extends LinearOpMode {
         resetRuntime();
 
         // Autonomous action sequence
-        moveForward(30, 0.5);  // Move forward 30 inches at 50% speed
-        rotate(90, 0.5);       // Rotate 90 degrees at 50% speed
-        strafeRight(20, 0.5);  // Strafe right 20 inches at 50% speed
-        moveForward(40, 0.5);  // Move forward another 40 inches at 50% speed
+        moveForward(300, 0.5);
+/*        rotate(90, 0.5);
+        strafeRight(200, 0.5);
+        moveForward(400, 0.5);*/
     }
 
     // Move the robot forward for a specified distance
     private void moveForward(double distance, double speed) {
         odo.resetPosAndIMU();
-        double targetPosition = odo.getPosition().getX(DistanceUnit.INCH) + distance;
+        double targetPosition = odo.getPosition().getX(DistanceUnit.MM) + distance; // Use MM here
 
-        while (opModeIsActive() && odo.getPosition().getX(DistanceUnit.INCH) < targetPosition) {
-            setMotorPowers(speed, speed, -speed, -speed);
-            telemetry.addData("Moving Forward", "Distance: %.2f", odo.getPosition().getX(DistanceUnit.INCH));
+        while (opModeIsActive() && odo.getPosition().getX(DistanceUnit.MM) < targetPosition) { // Use MM here
+            double leftFrontPower = speed;
+            double rightFrontPower = speed;
+            double leftBackPower = -speed;
+            double rightBackPower = -speed;
+
+            // Normalize motor powers if needed
+            normalizeMotorPowers(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+
+            setMotorPowers(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+            telemetry.addData("Moving Forward", "Distance: %.2f", odo.getPosition().getX(DistanceUnit.MM)); // Use MM here
             telemetry.update();
         }
         stopMotors();
@@ -80,7 +91,15 @@ public class AutonomousGoBildaPinpoint extends LinearOpMode {
         double targetHeading = odo.getPosition().getHeading(AngleUnit.DEGREES) + angle;
 
         while (opModeIsActive() && Math.abs(odo.getPosition().getHeading(AngleUnit.DEGREES) - targetHeading) > 2) {
-            setMotorPowers(-speed, speed, -speed, speed);  // Rotation logic
+            double leftFrontPower = -speed;
+            double rightFrontPower = speed;
+            double leftBackPower = -speed;
+            double rightBackPower = speed;
+
+            // Normalize motor powers if needed
+            normalizeMotorPowers(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+
+            setMotorPowers(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
             telemetry.addData("Rotating", "Angle: %.2f", odo.getPosition().getHeading(AngleUnit.DEGREES));
             telemetry.update();
         }
@@ -90,14 +109,36 @@ public class AutonomousGoBildaPinpoint extends LinearOpMode {
     // Strafe right for a specified distance
     private void strafeRight(double distance, double speed) {
         odo.resetPosAndIMU();
-        double targetPosition = odo.getPosition().getY(DistanceUnit.INCH) + distance;
+        double targetPosition = odo.getPosition().getY(DistanceUnit.MM) + distance; // Use MM here
 
-        while (opModeIsActive() && odo.getPosition().getY(DistanceUnit.INCH) < targetPosition) {
-            setMotorPowers(speed, -speed, -speed, speed);
-            telemetry.addData("Strafing Right", "Distance: %.2f", odo.getPosition().getY(DistanceUnit.INCH));
+        while (opModeIsActive() && odo.getPosition().getY(DistanceUnit.MM) < targetPosition) { // Use MM here
+            double leftFrontPower = speed;
+            double rightFrontPower = -speed;
+            double leftBackPower = -speed;
+            double rightBackPower = speed;
+
+            // Normalize motor powers if needed
+            normalizeMotorPowers(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+
+            setMotorPowers(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+            telemetry.addData("Strafing Right", "Distance: %.2f", odo.getPosition().getY(DistanceUnit.MM)); // Use MM here
             telemetry.update();
         }
         stopMotors();
+    }
+
+    // Normalize motor powers to ensure none exceed the maximum power
+    private void normalizeMotorPowers(double leftFrontPower, double rightFrontPower,
+                                      double leftBackPower, double rightBackPower) {
+        double maxPower = Math.max(1.0, Math.abs(leftFrontPower));
+        maxPower = Math.max(maxPower, Math.abs(rightFrontPower));
+        maxPower = Math.max(maxPower, Math.abs(leftBackPower));
+        maxPower = Math.max(maxPower, Math.abs(rightBackPower));
+
+        leftFrontPower /= maxPower;
+        rightFrontPower /= maxPower;
+        leftBackPower /= maxPower;
+        rightBackPower /= maxPower;
     }
 
     // Set motor powers for Mecanum drive
