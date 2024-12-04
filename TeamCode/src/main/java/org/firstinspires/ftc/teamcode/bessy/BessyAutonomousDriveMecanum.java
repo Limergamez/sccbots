@@ -43,7 +43,7 @@ public class BessyAutonomousDriveMecanum extends LinearOpMode {
         waitForStart();
 
         double desiredVoltage = 8.77;
-        double nominalVoltage = 12.0;
+        //double nominalVoltage = 12.0;
         double currentVoltage = hardwareMap.voltageSensor.get("Expansion Hub 1").getVoltage();
         double compensationFactor = desiredVoltage / currentVoltage;
 
@@ -57,8 +57,30 @@ public class BessyAutonomousDriveMecanum extends LinearOpMode {
         rightBackMotor.setPower(compensatedPower);
         rightFrontMotor.setPower(compensatedPower);
 
+        // Hangs Specimen on pole
+        moveForward(0.5, 930);
+        useLift(-1, 1200);
+        sleep(200);
+        useLift(0,400);
+        moveArm(-0.3, 300);
+        sleep(700);
+        useLift(1, 300);
+        moveArm(0.3, 300);
+        openClaw();
+        moveForward(-0.5, 770);
+
+        /*// Grabs Block off wall
+        openClaw();
+        rotateClockwise(0.5, 150);
+        moveForward(0.5, 1800);
+        moveArm(0.3,50);
         closeClaw();
-        sleep(500);
+        moveArm(-0.3,60);
+        useLift(0.7,80);
+        moveForward(-0.4,1800);
+        rotateClockwise(-0.5,150);
+
+        // Hangs second block
         moveForward(0.5, 870);
         useLift(-1, 1500);
         sleep(200);
@@ -67,8 +89,9 @@ public class BessyAutonomousDriveMecanum extends LinearOpMode {
         useLift(1, 300);
         moveArm(-0.3, 300);
         openClaw();
-        moveForward(-0.5, 800);
+        moveForward(-0.5, 800);*/
 
+        // Pushes 2 blocks into parking zone
         strafe(-0.5, 1400);
         moveForward(0.5, 2000);
         strafe(-0.5, 555);
@@ -76,6 +99,12 @@ public class BessyAutonomousDriveMecanum extends LinearOpMode {
         moveForward(0.5, 1800);
         strafe(-0.5, 570);
         moveForward(-0.5, 1470);
+
+        // Grabs block off the wall
+
+        // Hanging 3rd block
+
+        // Parking
     }
 
     public void moveForward(double power, long duration) throws InterruptedException {
@@ -156,10 +185,15 @@ public class BessyAutonomousDriveMecanum extends LinearOpMode {
     }
 
     public void useLift(double power, int time) throws InterruptedException {
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         liftMotor.setPower(power);
+
         sleep(time);
+
         liftMotor.setPower(0.2);
     }
+
 
     public void moveArm(double power, int time) throws InterruptedException {
         armMotor.setPower(power);
