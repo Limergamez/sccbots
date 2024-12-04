@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.tessy;
 
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -17,7 +18,9 @@ public class TessyConfiguration {
     public DcMotor liftMotor;
     public DcMotor climbMotor;
     public Servo clawServo;
-    //public Servo harvesterServo;
+    public Servo rodHarvesterServo;
+    public Servo rotateHarvesterServo;
+    public CRServo spinHarvesterServo;
     public DcMotor armMotor;
 
     public static TessyConfiguration newConfig(HardwareMap hardwareMap, Telemetry telemetry) {

@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.bessy;
 
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.tessy.TessyConfiguration;
 
 public class BessyConfiguration {
     public DcMotor leftBackMotor;
@@ -16,11 +18,13 @@ public class BessyConfiguration {
     public DcMotor liftMotor;
     public DcMotor climbMotor;
     public Servo clawServo;
-    //public Servo harvesterServo;
+    public Servo rodHarvesterServo;
+    public CRServo spinHarvesterServo;
+    public Servo rotateHarvesterServo;
     public DcMotor armMotor;
 
-    public static BessyConfiguration newConfig(HardwareMap hardwareMap, Telemetry telemetry) {
-        BessyConfiguration config = new BessyConfiguration();
+    public static TessyConfiguration newConfig(HardwareMap hardwareMap, Telemetry telemetry) {
+        TessyConfiguration config = new TessyConfiguration();
 
         config.leftBackMotor = hardwareMap.get(DcMotor.class, "leftBackMotor");
         config.rightBackMotor = hardwareMap.get(DcMotor.class, "rightBackMotor");
@@ -40,7 +44,7 @@ public class BessyConfiguration {
         telemetry.addData("Lift Motor", config.liftMotor.getConnectionInfo());
         telemetry.addData("Climb Motor", config.climbMotor.getConnectionInfo());
         telemetry.addData("Claw Servo", config.clawServo.getConnectionInfo());
-       // telemetry.addData("Harvester Servo", config.harvesterServo.getConnectionInfo());
+        // telemetry.addData("Harvester Servo", config.harvesterServo.getConnectionInfo());
         telemetry.addData("Arm Motor", config.armMotor.getConnectionInfo());
 
         telemetry.update();

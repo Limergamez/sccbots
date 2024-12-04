@@ -58,46 +58,46 @@ public class BessyAutonomousDriveMecanum extends LinearOpMode {
         rightFrontMotor.setPower(compensatedPower);
 
         // Hangs Specimen on pole
-        moveForward(0.5, 930);
-        useLift(-1, 1200);
-        sleep(200);
-        useLift(0,400);
-        moveArm(-0.3, 300);
-        sleep(700);
-        useLift(1, 300);
+        moveForward(0.5, 920);
+        useLift(-1, 1230);
+        moveArm(-0.2, 250);
+        useLift(1, 500);
         moveArm(0.3, 300);
         openClaw();
         moveForward(-0.5, 770);
 
-        /*// Grabs Block off wall
+        // Grabs Block off wall
         openClaw();
-        rotateClockwise(0.5, 150);
-        moveForward(0.5, 1800);
+        rotateClockwise(0.5, 900);
+        strafe(-0.5,350);
+        moveForward(0.5, 1900);
         moveArm(0.3,50);
         closeClaw();
+        sleep(700);
         moveArm(-0.3,60);
         useLift(0.7,80);
         moveForward(-0.4,1800);
-        rotateClockwise(-0.5,150);
+        rotateClockwise(-0.5,950);
+        moveForward(-0.5,400);
+        strafe(0.5,800);
 
         // Hangs second block
-        moveForward(0.5, 870);
-        useLift(-1, 1500);
-        sleep(200);
         moveArm(0.3, 300);
-        sleep(200);
-        useLift(1, 300);
-        moveArm(-0.3, 300);
+        moveForward(0.5, 850);
+        useLift(-1, 1230);
+        moveArm(-0.2, 250);
+        useLift(1, 330);
+        moveArm(0.3, 300);
         openClaw();
-        moveForward(-0.5, 800);*/
+        moveForward(-0.5, 770);
 
         // Pushes 2 blocks into parking zone
-        strafe(-0.5, 1400);
+        strafe(-0.5, 1585);
         moveForward(0.5, 2000);
-        strafe(-0.5, 555);
+        strafe(-0.5, 470);
         moveForward(-0.5, 1800);
         moveForward(0.5, 1800);
-        strafe(-0.5, 570);
+        strafe(-0.5, 640);
         moveForward(-0.5, 1470);
 
         // Grabs block off the wall
