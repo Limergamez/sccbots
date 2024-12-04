@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode.bessy;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -6,11 +7,14 @@ import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
 import org.firstinspires.ftc.teamcode.shared.common.ClawControl;
 import org.firstinspires.ftc.teamcode.shared.common.ClimbControl;
 import org.firstinspires.ftc.teamcode.shared.common.LiftControl;
+import org.firstinspires.ftc.teamcode.shared.common.rodHarvester;
+import org.firstinspires.ftc.teamcode.shared.common.spinHarvester;
+import org.firstinspires.ftc.teamcode.shared.common.rotateHarvester;
 import org.firstinspires.ftc.teamcode.shared.common.RobotOpMode;
 import org.firstinspires.ftc.teamcode.tessy.DualGamePadSteerDriveMecanum;
 import org.firstinspires.ftc.teamcode.tessy.TessyConfiguration;
 
-@TeleOp(name = "Bessy Steer Drive Renamed")
+@TeleOp(name = "Bessy Steer Drive V2")
 public class BessySteerDriveMecanum extends RobotOpMode {
     private TessyConfiguration config;
     private DualGamePadSteerDriveMecanum drive;
@@ -18,6 +22,10 @@ public class BessySteerDriveMecanum extends RobotOpMode {
     private ClimbControl climbControl;
     private ClawControl clawControl;
     private ArmControl armControl;
+    private rodHarvester rodHarvester;
+    private spinHarvester spinHarvester;
+    private rotateHarvester rotateHarvester;
+
 
     @Override
     protected void onInit() {
@@ -36,6 +44,9 @@ public class BessySteerDriveMecanum extends RobotOpMode {
         climbControl = new ClimbControl(this, gamepad2, config.climbMotor);
         clawControl = new ClawControl(this, gamepad2, config.clawServo);
         armControl = new ArmControl(this, gamepad2, config.armMotor);
+        spinHarvester = new spinHarvester(this, gamepad1, config.spinHarvesterMotor)
+        rodHarvester = new rodHarvester(this, gamepad1, config.rodHarvesterMotor)
+        rotateHarvester = new rotateHarvester(this, gamepad1, config.rotateHarvesterMotor)
     }
 
     @Override
@@ -45,6 +56,9 @@ public class BessySteerDriveMecanum extends RobotOpMode {
         climbControl.update();
         clawControl.update();
         armControl.update();
+        spinHarvester.update();
+        rodHarvester.update();
         telemetry.update();
     }
 }
+*/
