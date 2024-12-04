@@ -22,6 +22,7 @@
 
 package org.firstinspires.ftc.teamcode.bessy;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -57,7 +58,7 @@ For support, contact tech@gobilda.com
 -Ethan Doak
  */
 
-@TeleOp(name="goBILDA® PinPoint Odometry Example", group="Linear OpMode")
+@Autonomous(name="goBILDA® PinPoint Odometry Example", group="Linear OpMode")
 //@Disabled
 
 public class SensorGoBildaPinpointExample extends LinearOpMode {
@@ -123,6 +124,7 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
 
         // Wait for the game to start (driver presses START)
         waitForStart();
+        odo.resetPosAndIMU();
         resetRuntime();
 
 
