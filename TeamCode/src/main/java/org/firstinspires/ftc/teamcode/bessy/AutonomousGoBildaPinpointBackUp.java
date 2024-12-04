@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.bessy;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.shared.common.RobotOpMode;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Bessy Mecanum Autonomous")
+@Disabled
 
 public class AutonomousGoBildaPinpointBackUp extends LinearOpMode {
 
