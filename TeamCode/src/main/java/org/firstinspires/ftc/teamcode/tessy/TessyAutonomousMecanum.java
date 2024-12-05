@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.tessy.TessyConfiguration;
 
 import java.util.ArrayDeque;
 
-@Autonomous(name = "Tessy Odometry Autonomous")
+@Autonomous(name = "Bessy Autonomous")
 public class TessyAutonomousMecanum extends RobotOpMode {
 
     private static final double TICKS_PER_REV = 8192;
