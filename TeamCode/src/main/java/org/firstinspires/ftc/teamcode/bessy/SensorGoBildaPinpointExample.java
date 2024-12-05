@@ -84,7 +84,7 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
         the tracking point the Y (strafe) odometry pod is. forward of center is a positive number,
         backwards is a negative number.
          */
-        odo.setOffsets(-84.0, -168.0); //these are tuned for 3110-0002-0001 Product Insight #1
+        odo.setOffsets(-90.0, -165.0); //these are tuned for 3110-0002-0001 Product Insight #1
 
         /*
         Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
@@ -92,8 +92,8 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
         If you're using another kind of odometry pod, uncomment setEncoderResolution and input the
         number of ticks per mm of your odometry pod.
          */
-        odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        //odo.setEncoderResolution(13.26291192);
+        //odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        odo.setEncoderResolution(13.26291192);
 
 
         /*
@@ -101,7 +101,7 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
         increase when you move the robot forward. And the Y (strafe) pod should increase when
         you move the robot to the left.
          */
-        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
 
 
         /*
@@ -124,8 +124,9 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
 
         // Wait for the game to start (driver presses START)
         waitForStart();
-        odo.resetPosAndIMU();
         resetRuntime();
+        odo.resetPosAndIMU();
+        odo.recalibrateIMU();
 
 
         // run until the end of the match (driver presses STOP)
@@ -143,15 +144,6 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
              */
             //odo.update(GoBildaPinpointDriver.readData.ONLY_UPDATE_HEADING);
 
-
-            if (gamepad1.a){
-                odo.resetPosAndIMU(); //resets the position to 0 and recalibrates the IMU
-            }
-
-            if (gamepad1.b){
-                odo.recalibrateIMU(); //recalibrates the IMU without resetting position
-            }
-
             /*
             This code prints the loop frequency of the REV Control Hub. This frequency is effected
             by I²C reads/writes. So it's good to keep an eye on. This code calculates the amount
@@ -168,14 +160,14 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
             gets the current Position (x & y in mm, and heading in degrees) of the robot, and prints it.
              */
             Pose2D pos = odo.getPosition();
-            String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
+            String data = String.format(Locale.US, "X: %.3fmm, Y: %.3fmm\n Heading: %.3f°", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
             telemetry.addData("Position", data);
 
             /*
             gets the current Velocity (x & y in mm/sec and heading in degrees/sec) and prints it.
              */
             Pose2D vel = odo.getVelocity();
-            String velocity = String.format(Locale.US,"{XVel: %.3f, YVel: %.3f, HVel: %.3f}", vel.getX(DistanceUnit.MM), vel.getY(DistanceUnit.MM), vel.getHeading(AngleUnit.DEGREES));
+            String velocity = String.format(Locale.US,"XVel: %.3fmm, YVel: %.3fmm\n HVel: %.3f°", vel.getX(DistanceUnit.MM), vel.getY(DistanceUnit.MM), vel.getHeading(AngleUnit.DEGREES));
             telemetry.addData("Velocity", velocity);
 
 
