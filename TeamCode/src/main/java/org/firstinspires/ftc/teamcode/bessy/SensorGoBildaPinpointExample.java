@@ -25,6 +25,7 @@ package org.firstinspires.ftc.teamcode.bessy;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -64,12 +65,13 @@ For support, contact tech@gobilda.com
 public class SensorGoBildaPinpointExample extends LinearOpMode {
 
     GoBildaPinpointDriver odo; // Declare OpMode member for the Odometry Computer
+    private DcMotor leftBackMotor, rightBackMotor, leftFrontMotor, rightFrontMotor;
 
     double oldTime = 0;
 
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
@@ -127,6 +129,7 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
         resetRuntime();
         odo.resetPosAndIMU();
         odo.recalibrateIMU();
+        initHardware();
 
 
         // run until the end of the match (driver presses STOP)
@@ -138,6 +141,10 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
              */
             odo.update();
 
+            Pose2D pos = odo.getPosition();
+            double targetX = odo.getPosition().getX(DistanceUnit.MM) + 500;
+            double targetY = odo.getPosition().getY(DistanceUnit.MM);
+            moveToPosition(500, 0);
             /*
             Optionally, you can update only the heading of the device. This takes less time to read, but will not
             pull any other data. Only the heading (which you can pull with getHeading() or in getPosition().
@@ -159,7 +166,6 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
             /*
             gets the current Position (x & y in mm, and heading in degrees) of the robot, and prints it.
              */
-            Pose2D pos = odo.getPosition();
             String data = String.format(Locale.US, "X: %.3fmm, Y: %.3fmm\n Heading: %.3f°", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
             telemetry.addData("Position", data);
 
@@ -188,4 +194,97 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
             telemetry.update();
 
         }
-    }}
+    }
+
+    private void moveToPosition(double targetX, double targetY) throws InterruptedException {
+        double errorX = targetX - odo.getPosition().getX(DistanceUnit.MM);
+        double errorY = targetY - odo.getPosition().getY(DistanceUnit.MM);
+
+
+        double distance = Math.sqrt(errorX * errorX + errorY * errorY);
+
+        if (distance < 10) {
+            setMotorPowers(0, 0, 0, 0);
+            return;
+        }
+
+        double targetAngle = Math.atan2(errorY, errorX);
+        double currentHeading = odo.getPosition().getHeading(AngleUnit.RADIANS);
+
+        // Calculate angle difference and normalize to -π to π
+        double angleDifference = targetAngle - currentHeading;
+        while (angleDifference > Math.PI) angleDifference -= 2 * Math.PI;
+        while (angleDifference < -Math.PI) angleDifference += 2 * Math.PI;
+
+        if (Math.abs(angleDifference) > 0.1) {
+            // Rotate towards target angle
+            double rotatePower = angleDifference > 0 ? 0.5 : -0.5;
+            rotateClockwise(rotatePower, 100);
+        } else {
+            // Move forward towards the target
+            double forwardPower = Math.min(distance * 0.1, 1.0);  // Cap the power to a max value of 1
+            moveForward(forwardPower, 100);  // Move forward for a short duration
+        }
+    }
+
+    public void moveForward(double power, long duration) throws InterruptedException {
+        setForwardPower(power);
+        sleep(duration);
+    }
+
+    public void strafe(double power, long duration) throws InterruptedException {
+        setStrafePower(power);
+        sleep(duration);
+    }
+
+    public void rotateClockwise(double power, long duration) throws InterruptedException {
+        setRotationPower(power);
+        sleep(duration);
+    }
+
+    private void setForwardPower(double power) {
+        double leftFrontPower = -power;
+        double rightFrontPower = power;
+        double leftBackPower = power;
+        double rightBackPower = -power;
+
+        setMotorPowers(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+    }
+
+    private void setStrafePower(double power) {
+        double leftFrontPower = power;
+        double rightFrontPower = power;
+        double leftBackPower = -power;
+        double rightBackPower = -power;
+
+        setMotorPowers(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+    }
+
+    private void setRotationPower(double power) {
+        double leftFrontPower = power;
+        double rightFrontPower = -power;
+        double leftBackPower = power;
+        double rightBackPower = -power;
+
+        setMotorPowers(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+    }
+
+    private void setMotorPowers(double lf, double rf, double lb, double rb) {
+        leftFrontMotor.setPower(lf);
+        rightFrontMotor.setPower(rf);
+        leftBackMotor.setPower(lb);
+        rightBackMotor.setPower(rb);
+    }
+
+    private void initHardware() {
+        leftBackMotor = hardwareMap.get(DcMotor.class, "leftBackMotor");
+        rightBackMotor = hardwareMap.get(DcMotor.class, "rightBackMotor");
+        leftFrontMotor = hardwareMap.get(DcMotor.class, "leftFrontMotor");
+        rightFrontMotor = hardwareMap.get(DcMotor.class, "rightFrontMotor");
+
+        leftBackMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightBackMotor.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontMotor.setDirection(DcMotor.Direction.FORWARD);
+    }
+}
