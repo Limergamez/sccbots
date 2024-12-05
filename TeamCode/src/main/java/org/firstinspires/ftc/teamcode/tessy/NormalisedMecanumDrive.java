@@ -45,7 +45,7 @@ public class NormalisedMecanumDrive extends RobotComponent {
         this.showTelemetry = showTelemetry;
 
         if (showTelemetry) {
-            item = opMode.telemetry.addData("Mecanum", "Forward: %.2f, Strafe: %0.02f, Rotate: %.2f", speedX, speedY, speedR);
+            item = opMode.telemetry.addData("Mecanum", "Forward: %0.2f, Strafe: %0.2f, Rotate: %0.2f", speedX, speedY, speedR);
             item.setRetained(true);
         } else {
             item = null;
@@ -82,7 +82,7 @@ public class NormalisedMecanumDrive extends RobotComponent {
                 break;
         }
         if (item != null) {
-            item.setValue("Forward: %.2f, Strafe: %.2f, Rotate: %.2f", speedX, speedY, speedR);
+            item.setValue("Forward: %0.2f, Strafe: %0.2f, Rotate: %0.2f", speedX, speedY, speedR);
         }
     }
 

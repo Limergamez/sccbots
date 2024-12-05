@@ -1,11 +1,14 @@
-/*
+
 package org.firstinspires.ftc.teamcode.tessy;
 
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.shared.common.RobotOpMode;
 import org.firstinspires.ftc.teamcode.shared.tasks.GoToTask;
 import org.firstinspires.ftc.teamcode.shared.tasks.Task;
@@ -38,7 +41,10 @@ public class TessyAutonomousMecanum extends RobotOpMode {
                 config.rightBackMotor,
                 config.leftFrontMotor,
                 config.rightFrontMotor, true);
-        tasks.add(new GoToTask(drive, 500, 1000, 0.5));
+
+        tasks.add(new GoToTask(drive, config.odometry, 500.0, 1000.0, 0.5));
+
+        configureOtos();
     }
 
     @Override
@@ -53,151 +59,74 @@ public class TessyAutonomousMecanum extends RobotOpMode {
 
         }
         if (tasks.isEmpty()) {
-            drive.setSpeedXYR(0, 0, 0,);
+            drive.setSpeedXYR(0, 0, 0);
             drive.update();
         }
     }
 
-    @Override
-    public void runOpMode() throws InterruptedException {
-        xPosition = 0;
-        yPosition = 0;
-        */
-/* So this sets our starting position on the field. Basically if we marked middle of
-        field as starting then we set positions above to 0 so it knows that's 0.
-        To move X strafes the robot, while Y moves forwards and back. If we wanted to move 50 cm
-        to the left then we call in moveToPosition: moveToPosition(500, 0, 0.5); *//*
+    private void configureOtos() {
+        telemetry.addLine("Configuring OTOS...");
+        telemetry.update();
 
+        // Set the desired units for linear and angular measurements. Can be either
+        // meters or inches for linear, and radians or degrees for angular. If not
+        // set, the default is inches and degrees. Note that this setting is not
+        // persisted in the sensor, so you need to set at the start of all your
+        // OpModes if using the non-default value.
+        // myOtos.setLinearUnit(DistanceUnit.METER);
+        config.odometry.setLinearUnit(DistanceUnit.MM);
+        // myOtos.setAngularUnit(AnguleUnit.RADIANS);
+        config.odometry.setAngularUnit(AngleUnit.DEGREES);
 
-        leftFrontMotor = hardwareMap.get(DcMotor.class, "leftFrontMotor");
-        rightFrontMotor = hardwareMap.get(DcMotor.class, "rightFrontMotor");
-        leftBackMotor = hardwareMap.get(DcMotor.class, "leftBackMotor");
-        rightBackMotor = hardwareMap.get(DcMotor.class, "rightBackMotor");
+        // Assuming you've mounted your sensor to a robot and it's not centered,
+        // you can specify the offset for the sensor relative to the center of the
+        // robot. The units default to inches and degrees, but if you want to use
+        // different units, specify them before setting the offset! Note that as of
+        // firmware version 1.0, these values will be lost after a power cycle, so
+        // you will need to set them each time you power up the sensor. For example, if
+        // the sensor is mounted 5 inches to the left (negative X) and 10 inches
+        // forward (positive Y) of the center of the robot, and mounted 90 degrees
+        // clockwise (negative rotation) from the robot's orientation, the offset
+        // would be {-5, 10, -90}. These can be any value, even the angle can be
+        // tweaked slightly to compensate for imperfect mounting (eg. 1.3 degrees).
+        SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(30, 0, 0);
+        config.odometry.setOffset(offset);
 
-        leftBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        // Here we can set the linear and angular scalars, which can compensate for
+        // scaling issues with the sensor measurements. Note that as of firmware
+        // version 1.0, these values will be lost after a power cycle, so you will
+        // need to set them each time you power up the sensor. They can be any value
+        // from 0.872 to 1.127 in increments of 0.001 (0.1%). It is recommended to
+        // first set both scalars to 1.0, then calibrate the angular scalar, then
+        // the linear scalar. To calibrate the angular scalar, spin the robot by
+        // multiple rotations (eg. 10) to get a precise error, then set the scalar
+        // to the inverse of the error. Remember that the angle wraps from -180 to
+        // 180 degrees, so for example, if after 10 rotations counterclockwise
+        // (positive rotation), the sensor reports -15 degrees, the required scalar
+        // would be 3600/3585 = 1.004. To calibrate the linear scalar, move the
+        // robot a known distance and measure the error; do this multiple times at
+        // multiple speeds to get an average, then set the linear scalar to the
+        // inverse of the error. For example, if you move the robot 100 inches and
+        // the sensor reports 103 inches, set the linear scalar to 100/103 = 0.971
+        config.odometry.setLinearScalar(1.0);
+        config.odometry.setAngularScalar(1.0);
 
-        leftFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        // The IMU on the OTOS includes a gyroscope and accelerometer, which could
+        // have an offset. Note that as of firmware version 1.0, the calibration
+        // will be lost after a power cycle; the OTOS performs a quick calibration
+        // when it powers up, but it is recommended to perform a more thorough
+        // calibration at the start of all your OpModes. Note that the sensor must
+        // be completely stationary and flat during calibration! When calling
+        // calibrateImu(), you can specify the number of samples to take and whether
+        // to wait until the calibration is complete. If no parameters are provided,
+        // it will take 255 samples and wait until done; each sample takes about
+        // 2.4ms, so about 612ms total
+        config.odometry.calibrateImu();
 
-        resetEncoders();
+        // Reset the tracking algorithm - this resets the position to the origin,
+        // but can also be used to recover from some rare tracking errors
+        config.odometry.resetTracking();
 
-        waitForStart();
-
-        moveToPosition(500, 1000, 0.5); // This should move 50 mm to left and 1000 mm forward.
-    }
-
-    private void moveToPosition(double targetX, double targetY, double power) {
-        while (opModeIsActive()) {
-            updateOdometry();
-
-            double deltaX = targetX - xPosition;
-            double deltaY = targetY - yPosition;
-
-            if (Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) {
-                stopMotors();
-                break;
-            }
-
-            double strafePower = deltaX > 0 ? power : -power;
-            double forwardPower = deltaY > 0 ? power : -power;
-
-            setForwardPower(forwardPower);
-            setStrafePower(strafePower);
-        }
-    }
-
-    private void setForwardPower(double forwardPower) {
-        double leftFrontPower = -forwardPower;
-        double rightFrontPower = forwardPower;
-        double leftBackPower = forwardPower;
-        double rightBackPower = -forwardPower;
-
-        setMotorPowers(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
-    }
-
-    private void setStrafePower(double strafepower) {
-        double leftFrontPower = +strafepower;
-        double rightFrontPower = +strafepower;
-        double leftBackPower = -strafepower;
-        double rightBackPower = -strafepower;
-
-        setMotorPowers(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
-
-    }
-
-    public void rotateClockwise(double power, long duration) throws InterruptedException {
-        setRotationPower(power);
-        sleep(duration);
-        stopMotors();
-    }
-
-    private void setMotorPowers(double leftFrontPower, double rightFrontPower, double leftBackPower, double rightBackPower) {
-        double maxPower = Math.max(1.0, Math.abs(leftFrontPower));
-        maxPower = Math.max(maxPower, Math.abs(rightFrontPower));
-        maxPower = Math.max(maxPower, Math.abs(leftBackPower));
-        maxPower = Math.max(maxPower, Math.abs(rightBackPower));
-
-        leftFrontPower /= maxPower;
-        rightFrontPower /= maxPower;
-        leftBackPower /= maxPower;
-        rightBackPower /= maxPower;
-
-        leftFrontMotor.setPower(leftFrontPower);
-        rightFrontMotor.setPower(rightFrontPower);
-        leftBackMotor.setPower(leftBackPower);
-        rightBackMotor.setPower(rightBackPower);
-    }
-
-    private void setRotationPower(double power) {
-        double leftFrontPower = power;
-        double rightFrontPower = -power;
-        double leftBackPower = power;
-        double rightBackPower = -power;
-
-        setMotorPowers(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
-    }
-
-
-    private void stopMotors() {
-        leftFrontMotor.setPower(0);
-        rightFrontMotor.setPower(0);
-        leftBackMotor.setPower(0);
-        rightBackMotor.setPower(0);
-    }
-
-    private void resetEncoders() {
-        leftFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        leftFrontMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightFrontMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBackMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBackMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    }
-
-    private void updateOdometry() {
-        double leftEncoder = (leftBackMotor.getCurrentPosition() + leftFrontMotor.getCurrentPosition()) / 2.0;
-        double rightEncoder = (rightBackMotor.getCurrentPosition() + rightFrontMotor.getCurrentPosition()) / 2.0;
-        double horizontalEncoder = (leftFrontMotor.getCurrentPosition() - rightFrontMotor.getCurrentPosition()) / 2.0;
-
-        double leftDelta = (leftEncoder - lastLeftEncoder) * MM_PER_TICK;
-        double rightDelta = (rightEncoder - lastRightEncoder) * MM_PER_TICK;
-        double horizontalDelta = (horizontalEncoder - lastHorizontalEncoder) * MM_PER_TICK;
-
-        double deltaX = (leftDelta + rightDelta) / 2.0;
-        double deltaY = horizontalDelta;
-
-        xPosition += deltaX;
-        yPosition += deltaY;
-
-        lastLeftEncoder = leftEncoder;
-        lastRightEncoder = rightEncoder;
-        lastHorizontalEncoder = horizontalEncoder;
-    }
+   }
 }
-*/
+
