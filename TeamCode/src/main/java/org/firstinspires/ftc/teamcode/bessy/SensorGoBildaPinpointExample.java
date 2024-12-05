@@ -225,6 +225,9 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
             double forwardPower = Math.min(distance * 0.1, 1.0);  // Cap the power to a max value of 1
             moveForward(forwardPower, 100);  // Move forward for a short duration
         }
+        if (odo.getPosition().getX(DistanceUnit.MM) == targetX && odo.getPosition().getY(DistanceUnit.MM) == targetY) {
+            return;
+        }
     }
 
     public void moveForward(double power, long duration) throws InterruptedException {
