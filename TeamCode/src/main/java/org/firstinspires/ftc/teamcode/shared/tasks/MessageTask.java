@@ -20,7 +20,7 @@ public class MessageTask extends BaseTask implements Task {
         if (isFinished()) {
             return;
         }
-        opMode.telemetry.addLine(String.format("%s %.2f", message, time));
+        opMode.telemetry.addLine(String.format("%s %4.2f", message, time));
     }
 
 }

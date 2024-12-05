@@ -57,14 +57,14 @@ public class NessyConfiguration extends RobotConfiguration {
         centreRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        Telemetry.Item motorsItem = telemetry.addData("Drive Motors: ", new Func<String>() {
-            @SuppressLint("DefaultLocale")
-            @Override
-            public String value() {
-                return String.format("Centre Left: %.2f  Centre Right: %.2f  Back Left: %.2f  Back Right: %.2f", centreLeft.getPower(), centreRight.getPower(), backLeft.getPower(), backRight.getPower());
-            }
-        });
-        motorsItem.setRetained(true);
+//        Telemetry.Item motorsItem = telemetry.addData("Drive Motors: ", new Func<String>() {
+//            @SuppressLint("DefaultLocale")
+//            @Override
+//            public String value() {
+//                return String.format("Centre Left: %4.2f  Centre Right: %4.2f  Back Left: %4.2f  Back Right: %4.2f", centreLeft.getPower(), centreRight.getPower(), backLeft.getPower(), backRight.getPower());
+//            }
+//        });
+//        motorsItem.setRetained(true);
 
 
         liftMotor = (DcMotor) getHardwareOn("liftMotor", hardwareMap.dcMotor);
@@ -72,14 +72,14 @@ public class NessyConfiguration extends RobotConfiguration {
         clawServo = (Servo) getHardwareOn("clawServo", hardwareMap.servo);
         armMotor = (DcMotor) getHardwareOn("armMotor", hardwareMap.dcMotor);
 
-        Telemetry.Item armItem = telemetry.addData("Lift/Arm Motors: ", new Func<String>() {
-            @SuppressLint("DefaultLocale")
-            @Override
-            public String value() {
-                return String.format("Lift Power: %.2f  Climb Power: %.2f", liftMotor.getPower(), climbMotor.getPower());
-            }
-        });
-        armItem.setRetained(true);
+//        Telemetry.Item armItem = telemetry.addData("Lift/Arm Motors: ", new Func<String>() {
+//            @SuppressLint("DefaultLocale")
+//            @Override
+//            public String value() {
+//                return String.format("Lift Power: %.2f  Climb Power: %.2f", liftMotor.getPower(), climbMotor.getPower());
+//            }
+//        });
+//        armItem.setRetained(true);
 
 
     }

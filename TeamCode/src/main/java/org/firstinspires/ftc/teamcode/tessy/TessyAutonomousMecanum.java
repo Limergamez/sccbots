@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.shared.common.RobotOpMode;
 import org.firstinspires.ftc.teamcode.shared.tasks.GoToTask;
+import org.firstinspires.ftc.teamcode.shared.tasks.MessageTask;
 import org.firstinspires.ftc.teamcode.shared.tasks.Task;
 import org.firstinspires.ftc.teamcode.tessy.TessyConfiguration;
 
@@ -37,14 +38,20 @@ public class TessyAutonomousMecanum extends RobotOpMode {
         config = TessyConfiguration.newConfig(hardwareMap, telemetry);
         drive = new NormalisedMecanumDrive(
                 this,
-                config.leftBackMotor,
-                config.rightBackMotor,
                 config.leftFrontMotor,
-                config.rightFrontMotor, true);
-
-        tasks.add(new GoToTask(drive, config.odometry, 500.0, 1000.0, 0.5));
-
+                config.rightFrontMotor,
+                config.leftBackMotor,
+                config.rightBackMotor, true);
         configureOtos();
+        tasks.add(new MessageTask(this,1, "Starting"));
+        tasks.add(new GoToTask(this, 3.0,
+                drive, config.odometry, 100, 0, 10));
+        tasks.add(new MessageTask(this,1, "done 1"));
+        tasks.add(new GoToTask(this, 3.0,
+                drive, config.odometry, 0, 100.0, 10));
+        tasks.add(new MessageTask(this,1, "done 2"));
+        tasks.add(new MessageTask(this,1, "Finished"));
+
     }
 
     @Override
@@ -89,7 +96,7 @@ public class TessyAutonomousMecanum extends RobotOpMode {
         // clockwise (negative rotation) from the robot's orientation, the offset
         // would be {-5, 10, -90}. These can be any value, even the angle can be
         // tweaked slightly to compensate for imperfect mounting (eg. 1.3 degrees).
-        SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(30, 0, 0);
+        SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(30, 0, 180);
         config.odometry.setOffset(offset);
 
         // Here we can set the linear and angular scalars, which can compensate for
@@ -126,6 +133,8 @@ public class TessyAutonomousMecanum extends RobotOpMode {
         // Reset the tracking algorithm - this resets the position to the origin,
         // but can also be used to recover from some rare tracking errors
         config.odometry.resetTracking();
+        telemetry.addLine("Finished configuring OTOS...");
+        telemetry.update();
 
    }
 }

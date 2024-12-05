@@ -33,8 +33,10 @@ public class NormalisedMecanumDrive extends RobotComponent {
 
 
     public NormalisedMecanumDrive(RobotOpMode opmode,
-                                  DcMotor frontLeftMotor, DcMotor frontRightMotor,
-                                  DcMotor backLeftMotor, DcMotor backRightMotor,
+                                  DcMotor frontLeftMotor,
+                                  DcMotor frontRightMotor,
+                                  DcMotor backLeftMotor,
+                                  DcMotor backRightMotor,
                                   boolean showTelemetry) {
         super(opmode);
         this.opMode = opmode;
@@ -45,7 +47,7 @@ public class NormalisedMecanumDrive extends RobotComponent {
         this.showTelemetry = showTelemetry;
 
         if (showTelemetry) {
-            item = opMode.telemetry.addData("Mecanum", "Forward: %0.2f, Strafe: %0.2f, Rotate: %0.2f", speedX, speedY, speedR);
+            item = opMode.telemetry.addData("Mecanum", "Forward: %4.2f, Strafe: %4.2f, Rotate: %4.2f", speedX, speedY, speedR);
             item.setRetained(true);
         } else {
             item = null;
@@ -82,7 +84,7 @@ public class NormalisedMecanumDrive extends RobotComponent {
                 break;
         }
         if (item != null) {
-            item.setValue("Forward: %0.2f, Strafe: %0.2f, Rotate: %0.2f", speedX, speedY, speedR);
+            item.setValue("Forward: %4.2f, Strafe: %4.2f, Rotate: %4.2f", speedX, speedY, speedR);
         }
     }
 
@@ -104,8 +106,8 @@ public class NormalisedMecanumDrive extends RobotComponent {
 
         frontLeftMotor.setPower(frontLeftPower);
         frontRightMotor.setPower(frontRightPower);
-        backLeftMotor.setPower(backLeftPower);
-        backRightMotor.setPower(backRightPower);
+        backLeftMotor.setPower(-backLeftPower);
+        backRightMotor.setPower(-backRightPower);
     }
 
     /**

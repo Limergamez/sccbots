@@ -37,10 +37,10 @@ public class DualGamePadSteerDriveMecanum extends RobotComponent {
         leftFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        leftBackPowerItem = getOpMode().telemetry.addData("Left Back Power", "%.2f", 0.0);
-        rightBackPowerItem = getOpMode().telemetry.addData("Right Back Power", "%.2f", 0.0);
-        leftFrontPowerItem = getOpMode().telemetry.addData("Left Front Power", "%.2f", 0.0);
-        rightFrontPowerItem = getOpMode().telemetry.addData("Right Front Power", "%.2f", 0.0);
+        leftBackPowerItem = getOpMode().telemetry.addData("Left Back Power", "%0.2f", 0.0);
+        rightBackPowerItem = getOpMode().telemetry.addData("Right Back Power", "%0.2f", 0.0);
+        leftFrontPowerItem = getOpMode().telemetry.addData("Left Front Power", "%0.2f", 0.0);
+        rightFrontPowerItem = getOpMode().telemetry.addData("Right Front Power", "%0.2f", 0.0);
     }
 
     public void update() {
