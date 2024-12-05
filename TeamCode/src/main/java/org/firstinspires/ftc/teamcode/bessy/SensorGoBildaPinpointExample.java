@@ -84,7 +84,7 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
         the tracking point the Y (strafe) odometry pod is. forward of center is a positive number,
         backwards is a negative number.
          */
-        odo.setOffsets(-90.0, -150.0); //these are tuned for 3110-0002-0001 Product Insight #1
+        odo.setOffsets(-90.0, -165.0); //these are tuned for 3110-0002-0001 Product Insight #1
 
         /*
         Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
@@ -92,8 +92,8 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
         If you're using another kind of odometry pod, uncomment setEncoderResolution and input the
         number of ticks per mm of your odometry pod.
          */
-        odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        //odo.setEncoderResolution(13.26291192);
+        //odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        odo.setEncoderResolution(13.26291192);
 
 
         /*
@@ -124,9 +124,9 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
 
         // Wait for the game to start (driver presses START)
         waitForStart();
+        resetRuntime();
         odo.resetPosAndIMU();
         odo.recalibrateIMU();
-        resetRuntime();
 
 
         // run until the end of the match (driver presses STOP)
@@ -143,15 +143,6 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
             pull any other data. Only the heading (which you can pull with getHeading() or in getPosition().
              */
             //odo.update(GoBildaPinpointDriver.readData.ONLY_UPDATE_HEADING);
-
-
-            if (gamepad1.a){
-                odo.resetPosAndIMU(); //resets the position to 0 and recalibrates the IMU
-            }
-
-            if (gamepad1.b){
-                odo.recalibrateIMU(); //recalibrates the IMU without resetting position
-            }
 
             /*
             This code prints the loop frequency of the REV Control Hub. This frequency is effected
