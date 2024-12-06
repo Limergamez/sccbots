@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.bessy;
+package org.firstinspires.ftc.teamcode.bessy.tylerauto;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Bessy Mecanum Autonomous")
-public class BessyAutonomousDriveMecanum extends LinearOpMode {
+public class BessyAutoTime1 extends LinearOpMode {
 
     protected DcMotor leftBackMotor;
     protected DcMotor rightBackMotor;
