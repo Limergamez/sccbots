@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode.bessy.otos;
 
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.bessy.BessyConfiguration;
+import org.firstinspires.ftc.teamcode.shared.common.LiftControl;
 import org.firstinspires.ftc.teamcode.shared.common.RobotOpMode;
 import org.firstinspires.ftc.teamcode.shared.tasks.Task;
 import org.firstinspires.ftc.teamcode.tessy.TessyConfiguration;
@@ -14,6 +16,7 @@ import java.util.ArrayDeque;
 public class AutonomousMechanum extends RobotOpMode {
     private TessyConfiguration config;
     private NormalisedMecanumDrive drive;
+    private DcMotor liftMotor;
     private ArrayDeque<Task> tasks = new ArrayDeque<>();
 
     private double heading;
@@ -26,17 +29,12 @@ public class AutonomousMechanum extends RobotOpMode {
                 config.leftFrontMotor, config.rightFrontMotor,
                 config.leftBackMotor, config.rightBackMotor, true);
 
-//        tasks.add(new MecanumDriveTask(this, 1, drive, 1, 0, 0));
-//        tasks.add(new GoToTask(this, 4, drive, config.otos, 0, 600, 90, 0.5, 20, 5));
-//        tasks.add(new GoToTask(this, 6, drive, config.otos, 600, 600, 181,0.5, 20, 5));
-//        tasks.add(new GoToTask(this, 4, drive, config.otos, 0, 600, 269, 0.5, 20, 5));
-//        tasks.add(new GoToTask(this, 4, drive, config.otos, 0, 0, 0, 0.5, 20, 5));
-        tasks.add(new GoToTask(this, 4, drive, config.odometry, 0, 500, 0, 0.5, 20, 5));
-        tasks.add(new GoToTask(this, 6, drive, config.odometry, 500, 500, 0,0.5, 20, 5));
-        tasks.add(new GoToTask(this, 4, drive, config.odometry, 500, 0, 0, 0.5, 20, 5));
-        tasks.add(new GoToTask(this, 4, drive, config.odometry, 0, 0, 0, 0.5, 20, 5));
-//        tasks.add(new MecanumDriveTask(this, 1, drive, 0, 1, 0));
-//        tasks.add(new MecanumDriveTask(this, 3, drive, 0, 0.1, 1));
+        tasks.add(new GoToTask(this, 100, drive, config.odometry, 0, 779.2, 0, 0.5, 20, 5));
+        tasks.add(new MotorTask(this, 1.23, liftMotor, -1, true));
+        //arm motor task
+        tasks.add(new MotorTask(this, 0.5, liftMotor, 1, true));
+
+
 
         config.odometry.setOffset(new SparkFunOTOS.Pose2D(0,0,0));
 
