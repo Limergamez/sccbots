@@ -37,6 +37,7 @@ public class BessyAutoTime2 extends LinearOpMode {
         rightFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         armControl = new ArmControl(null, null, armMotor);
 
@@ -50,8 +51,8 @@ public class BessyAutoTime2 extends LinearOpMode {
         double targetPower = 1;
         double compensatedPower = targetPower * compensationFactor;
 
-        armMotor.setPower(compensatedPower);
-        liftMotor.setPower(compensatedPower);
+        //armMotor.setPower(compensatedPower);
+        //liftMotor.setPower(compensatedPower);
         leftBackMotor.setPower(compensatedPower);
         leftFrontMotor.setPower(compensatedPower);
         rightBackMotor.setPower(compensatedPower);
@@ -60,7 +61,7 @@ public class BessyAutoTime2 extends LinearOpMode {
         // Hangs Specimen on pole
         moveForward(0.5, 1296);
         useLift(-1, 1230);
-        moveArm(-0.2, 250);
+        //moveArm(-0.1, 100);
         useLift(1, 500);
         moveArm(0.3, 300);
         openClaw();
@@ -76,20 +77,19 @@ public class BessyAutoTime2 extends LinearOpMode {
         sleep(700);
         moveArm(-0.3,60);
         useLift(0.7,80);
-        moveForward(-0.4,1800); // same here
-        rotateClockwise(-0.5,950);
+        moveForward(-0.5,2200); // same here
+        rotateClockwise(-0.5,930);
         moveForward(-0.5,400); // Same here
-        strafe(0.5,800);
 
         // Hangs second block
         moveArm(0.3, 300);
-        moveForward(0.5, 850); // this needs to be changed
+        moveForward(0.5, 1296);
         useLift(-1, 1230);
         moveArm(-0.2, 250);
         useLift(1, 330);
         moveArm(0.3, 300);
         openClaw();
-        moveForward(-0.5, 770); // this needs change
+        moveForward(-0.5, 1290);
 
         // Pushes 2 blocks into parking zone
         strafe(-0.5, 1585);
