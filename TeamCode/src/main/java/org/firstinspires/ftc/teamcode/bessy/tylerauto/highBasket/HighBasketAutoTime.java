@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.bessy.tylerauto;
+package org.firstinspires.ftc.teamcode.bessy.tylerauto.highBasket;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -8,9 +8,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Bessy Mecanum Autonomous")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Bessy High Basket Auto Time")
 @Disabled
-public class BessyAutoTime1 extends LinearOpMode {
+public class HighBasketAutoTime extends LinearOpMode {
 
     protected DcMotor leftBackMotor;
     protected DcMotor rightBackMotor;
@@ -39,74 +39,33 @@ public class BessyAutoTime1 extends LinearOpMode {
         rightFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         armControl = new ArmControl(null, null, armMotor);
 
         waitForStart();
 
-        double desiredVoltage = 8.77;
+        double desiredVoltage = 12.5;
         //double nominalVoltage = 12.0;
         double currentVoltage = hardwareMap.voltageSensor.get("Expansion Hub 1").getVoltage();
         double compensationFactor = desiredVoltage / currentVoltage;
 
-        double targetPower = 0.8;
+        double targetPower = 1;
         double compensatedPower = targetPower * compensationFactor;
 
-        armMotor.setPower(compensatedPower);
-        liftMotor.setPower(compensatedPower);
+        //armMotor.setPower(compensatedPower);
+        //liftMotor.setPower(compensatedPower);
         leftBackMotor.setPower(compensatedPower);
         leftFrontMotor.setPower(compensatedPower);
         rightBackMotor.setPower(compensatedPower);
         rightFrontMotor.setPower(compensatedPower);
 
-        // Hangs Specimen on pole
-        moveForward(0.5, 920);
-        useLift(-1, 1230);
-        moveArm(-0.2, 250);
-        useLift(1, 500);
-        moveArm(0.3, 300);
+        // Hangs Specimen on pole -- This is good.
+        moveForward(0.5, 100);
+        useLift(1,500);
+        moveArm(0.3,200);
         openClaw();
-        moveForward(-0.5, 770);
 
-        // Grabs Block off wall
-        openClaw();
-        rotateClockwise(0.5, 900);
-        strafe(-0.5,350);
-        moveForward(0.5, 1900);
-        moveArm(0.3,50);
-        closeClaw();
-        sleep(700);
-        moveArm(-0.3,60);
-        useLift(0.7,80);
-        moveForward(-0.4,1800);
-        rotateClockwise(-0.5,950);
-        moveForward(-0.5,400);
-        strafe(0.5,800);
-
-        // Hangs second block
-        moveArm(0.3, 300);
-        moveForward(0.5, 850);
-        useLift(-1, 1230);
-        moveArm(-0.2, 250);
-        useLift(1, 330);
-        moveArm(0.3, 300);
-        openClaw();
-        moveForward(-0.5, 770);
-
-        // Pushes 2 blocks into parking zone
-        strafe(-0.5, 1585);
-        moveForward(0.5, 2000);
-        strafe(-0.5, 470);
-        moveForward(-0.5, 1800);
-        moveForward(0.5, 1800);
-        strafe(-0.5, 640);
-        moveForward(-0.5, 1470);
-
-        // Grabs block off the wall
-
-        // Hanging 3rd block
-
-        // Parking
     }
 
     public void moveForward(double power, long duration) throws InterruptedException {

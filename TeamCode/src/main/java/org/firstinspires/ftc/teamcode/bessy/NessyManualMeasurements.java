@@ -23,6 +23,7 @@
 package org.firstinspires.ftc.teamcode.bessy;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -59,7 +60,7 @@ For support, contact tech@gobilda.com
  */
 
 @Autonomous(name="Nessy Manual Measurement", group="Linear OpMode")
-//@Disabled
+@Disabled
 
 public class NessyManualMeasurements extends LinearOpMode {
 

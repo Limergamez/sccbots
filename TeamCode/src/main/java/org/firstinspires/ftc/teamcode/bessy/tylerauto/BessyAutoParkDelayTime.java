@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Bessy Autonomous Time")
-public class BessyAutoTime2 extends LinearOpMode {
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Parking Bessy with delay")
+public class BessyAutoParkDelayTime extends LinearOpMode {
 
     protected DcMotor leftBackMotor;
     protected DcMotor rightBackMotor;
@@ -58,38 +58,37 @@ public class BessyAutoTime2 extends LinearOpMode {
         rightBackMotor.setPower(compensatedPower);
         rightFrontMotor.setPower(compensatedPower);
 
-        // Hangs Specimen on pole
-        moveForward(0.5, 1296);
+        // Hangs Specimen on pole -- This is good.
+        moveForward(0.5, 800);
         useLift(-1, 1230);
-        //moveArm(-0.1, 100);
+        moveArm(0.2, 200);
         useLift(1, 500);
-        moveArm(0.3, 300);
         openClaw();
+        moveArm(-0.25, 250);
         moveForward(-0.5, 1000);
 
-        // Grabs Block off wall
+        // Grabs Block off wall -- This is good with push wall faults
         openClaw();
         rotateClockwise(0.5, 900);
         strafe(-0.5,250); //Strafe right is negative/left is positive
-        moveForward(0.5, 2150); // This needs to be mearsurd
+        moveForward(0.5, 1950); // This needs to be mearsurd
         moveArm(0.3,50);
         closeClaw();
-        sleep(700);
+        sleep(500);
         moveArm(-0.3,60);
         useLift(0.7,80);
-        moveForward(-0.5,2200); // same here
+        moveForward(-0.5,2200);
         rotateClockwise(-0.5,930);
-        moveForward(-0.5,400); // Same here
+        moveForward(-0.5,400);
 
-        // Hangs second block
-        moveArm(0.3, 300);
-        moveForward(0.5, 1296);
+        // Hangs second block -- slightly off
+        moveForward(0.5, 820);
         useLift(-1, 1230);
-        moveArm(-0.2, 250);
-        useLift(1, 330);
-        moveArm(0.3, 300);
+        moveArm(0.2, 200);
+        useLift(1, 500);
         openClaw();
-        moveForward(-0.5, 1290);
+        moveArm(-0.25, 250);
+        moveForward(-0.5, 1000);
 
         // Pushes 2 blocks into parking zone
         strafe(-0.5, 1585);

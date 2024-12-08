@@ -6,9 +6,9 @@ import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
 import org.firstinspires.ftc.teamcode.shared.common.ClawControl;
 import org.firstinspires.ftc.teamcode.shared.common.ClimbControl;
 import org.firstinspires.ftc.teamcode.shared.common.LiftControl;
-import org.firstinspires.ftc.teamcode.shared.common.rodHarvester;
+/*import org.firstinspires.ftc.teamcode.shared.common.rodHarvester;
 import org.firstinspires.ftc.teamcode.shared.common.spinHarvester;
-import org.firstinspires.ftc.teamcode.shared.common.rotateHarvester;
+import org.firstinspires.ftc.teamcode.shared.common.rotateHarvester;*/
 import org.firstinspires.ftc.teamcode.shared.common.RobotOpMode;
 import org.firstinspires.ftc.teamcode.tessy.DualGamePadSteerDriveMecanum;
 import org.firstinspires.ftc.teamcode.tessy.TessyConfiguration;
@@ -21,11 +21,12 @@ public class BessySteerDriveMecanum extends RobotOpMode {
     private DualGamePadSteerDriveMecanum drive;
     private LiftControl liftControl;
     private ClimbControl climbControl;
+   // private ClimbControl climbControl2;
     private ClawControl clawControl;
     private ArmControl armControl;
-    private rodHarvester rodHarvester;
+/*    private rodHarvester rodHarvester;
     private spinHarvester spinHarvester;
-    private rotateHarvester rotateHarvester;
+    private rotateHarvester rotateHarvester;*/
 
     @Override
     protected void onInit() {
@@ -42,12 +43,13 @@ public class BessySteerDriveMecanum extends RobotOpMode {
 
         liftControl = new LiftControl(this, gamepad2, config.liftMotor);
         climbControl = new ClimbControl(this, gamepad2, config.climbMotor);
+       // climbControl2 = new ClimbControl(this, gamepad1, config.climbMotor);
         clawControl = new ClawControl(this, gamepad2, config.clawServo);
         armControl = new ArmControl(this, gamepad2, config.armMotor);
 
-        rodHarvester = new rodHarvester(this, gamepad1, config.rodHarvesterServo);
+/*        rodHarvester = new rodHarvester(this, gamepad1, config.rodHarvesterServo);
         spinHarvester = new spinHarvester(this, gamepad1, config.spinHarvesterServo);
-        rotateHarvester = new rotateHarvester(this, gamepad1, config.rotateHarvesterServo);
+        rotateHarvester = new rotateHarvester(this, gamepad1, config.rotateHarvesterServo);*/
     }
 
     @Override
@@ -55,11 +57,12 @@ public class BessySteerDriveMecanum extends RobotOpMode {
         drive.update();
         liftControl.update();
         climbControl.update();
+        //climbControl2.update();
         clawControl.update();
         armControl.update();
-        rodHarvester.update();
+/*      rodHarvester.update();
         spinHarvester.update();
-        rotateHarvester.update();
+        rotateHarvester.update();*/
         telemetry.update();
     }
 }

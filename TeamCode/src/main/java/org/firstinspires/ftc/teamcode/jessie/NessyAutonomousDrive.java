@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.jessie;
 
 import static java.lang.Thread.sleep;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -9,6 +11,7 @@ import org.firstinspires.ftc.teamcode.shared.common.ArmControl;
 import org.firstinspires.ftc.teamcode.shared.common.DualGamePadSteerDrive;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Nessy Autonomous V15")
+@Disabled
 public class NessyAutonomousDrive extends LinearOpMode {
     // Movement Motors
     protected DcMotor centreRight;
